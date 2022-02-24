@@ -7,6 +7,7 @@ export default function SignUp() {
   const [loginLoading, setLoginLoading] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
+  const bioRef = useRef();
   const { signUp } = useAuth();
 
   const handleSignUpSubmit = async (e) => {
@@ -15,7 +16,11 @@ export default function SignUp() {
     try {
       setLoginErr("");
       setLoginLoading(true);
-      await signUp(emailRef.current.value, passwordRef.current.value);
+      await signUp(
+        emailRef.current.value,
+        passwordRef.current.value,
+        bioRef.current.value
+      );
     } catch (err) {
       setLoginErr("Failed to create an account");
       console.log(err);
@@ -35,6 +40,10 @@ export default function SignUp() {
         <div className="password-box">
           <label htmlFor="password">Password</label>
           <input type="password" ref={passwordRef} placeholder="New Password" />
+        </div>
+        <div className="bio-box">
+          <label htmlFor="bio">Bio</label>
+          <input type="text" ref={bioRef} placeholder="Bio..." />
         </div>
         <button disabled={loginLoading} type="submit">
           Sign Up
