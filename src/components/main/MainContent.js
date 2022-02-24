@@ -8,11 +8,12 @@ export default function MainContent() {
   const [dataError, setDataError] = useState(false);
   const [logOutError, setLogOutError] = useState("");
   const [loadingData, setLoadingData] = useState(true);
-  const { currentUser, signOut } = useAuth();
+  const { currentUser, signOut, userCollection, userInfo } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     // fetchChildrenData();
+    userCollection();
   }, []);
 
   const fetchChildrenData = async () => {
@@ -45,7 +46,8 @@ export default function MainContent() {
   }
   return (
     <div>
-      {currentUser && <h4>Hello {currentUser.email}</h4>}
+      <h4>Hello {currentUser.email}</h4>
+      <h1>Bio: {userInfo.bio}</h1>
       <h2>Main content</h2>
       {childrenData.map((child) => {
         return child.first_name;

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [loginErr, setLoginErr] = useState("");
@@ -9,6 +9,7 @@ export default function SignUp() {
   const passwordRef = useRef();
   const bioRef = useRef();
   const { signUp } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +22,7 @@ export default function SignUp() {
         passwordRef.current.value,
         bioRef.current.value
       );
+      navigate("/");
     } catch (err) {
       setLoginErr("Failed to create an account");
       console.log(err);

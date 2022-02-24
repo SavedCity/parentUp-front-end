@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -9,7 +9,13 @@ export default function SignIn() {
   const passwordRef = useRef();
   const { signIn, currentUser } = useAuth();
   const navigate = useNavigate();
+  const isMounted = useRef(false);
   let location = useLocation();
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => (isMounted.current = false);
+  }, []);
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();

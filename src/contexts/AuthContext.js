@@ -9,6 +9,7 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
+  const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const signUp = async (email, password, bioVal) => {
@@ -30,8 +31,20 @@ export function AuthProvider({ children }) {
     return auth.sendPasswordResetEmail(email);
   };
 
+  const userCollection = async () => {
+    if (currentUser) {
+      const data = await db
+        .collection("users")
+        .doc(currentUser.uid)
+        .get()
+        .then((doc) => doc.data());
+      setUserInfo(data);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUserInfo([]);
       setCurrentUser(user);
       setLoading(false);
     });
@@ -39,7 +52,15 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  const value = { currentUser, signUp, signIn, signOut, resetPassword };
+  const value = {
+    currentUser,
+    signUp,
+    signIn,
+    signOut,
+    resetPassword,
+    userCollection,
+    userInfo,
+  };
 
   return (
     <AuthContext.Provider value={value}>
