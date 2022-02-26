@@ -39,8 +39,6 @@ export default function MainContent() {
     }
   };
 
-  //   if (!loadingData) console.log(childrenData);
-
   // if (dataError) {
   //   return <h1>ERROR RETRIEVING DATA</h1>;
   // }
