@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -9,7 +9,13 @@ export default function SignUp() {
   const passwordRef = useRef();
   const bioRef = useRef();
   const { signUp } = useAuth();
+  const isMounted = useRef(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => (isMounted.current = false);
+  }, []);
 
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +40,7 @@ export default function SignUp() {
   return (
     <div>
       {loginErr && loginErr}
-      <form onSubmit={handleSignUpSubmit}>
+      <form className="signup-form" onSubmit={handleSignUpSubmit}>
         <div className="email-box">
           <label htmlFor="email">Email</label>
           <input type="email" ref={emailRef} placeholder="Email Address" />
