@@ -12,10 +12,11 @@ export function AuthProvider({ children }) {
   const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const signUp = async (email, password, bioVal) => {
+  const signUp = async (email, password, username) => {
     const newUser = await auth.createUserWithEmailAndPassword(email, password);
     return db.collection("users").doc(newUser.user.uid).set({
-      bio: bioVal,
+      username: username,
+      date_created: new Date(),
     });
   };
 
@@ -60,6 +61,7 @@ export function AuthProvider({ children }) {
     resetPassword,
     userCollection,
     userInfo,
+    db,
   };
 
   return (

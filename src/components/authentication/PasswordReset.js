@@ -3,7 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 
 export default function PasswordReset() {
-  const [passwordSetMessage, setPassworsetMessage] = useState("");
+  const [passwordSentMessage, setPasswordSentMessage] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordInputValue, setPasswordInputValue] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
@@ -14,11 +14,11 @@ export default function PasswordReset() {
     e.preventDefault();
 
     try {
-      setPassworsetMessage("");
+      setPasswordSentMessage("");
       setPasswordError("");
       setLoginLoading(true);
       await resetPassword(emailRef.current.value);
-      setPassworsetMessage("Password reset sent to " + passwordInputValue);
+      setPasswordSentMessage("Password reset sent to " + passwordInputValue);
     } catch (err) {
       setPasswordError("Failed to reset password");
       console.log(err);
@@ -30,7 +30,7 @@ export default function PasswordReset() {
   return (
     <div>
       <Link to="/">Home</Link>
-      {passwordSetMessage && passwordSetMessage}
+      {passwordSentMessage && passwordSentMessage}
       {passwordError && passwordError}
       <form id="reset-password-form" onSubmit={handleSignInSubmit}>
         <div className="email-box">

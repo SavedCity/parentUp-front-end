@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 // import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function MainContent() {
   // const [childrenData, setChildrenData] = useState([]);
   // const [dataError, setDataError] = useState(false);
   const [logOutError, setLogOutError] = useState("");
   // const [loadingData, setLoadingData] = useState(true);
-  const { currentUser, signOut, userCollection, userInfo } = useAuth();
+  const { userInfo, signOut, userCollection } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     // fetchChildrenData();
     userCollection();
-  });
+  }, []); // eslint-disable-line
 
   // const fetchChildrenData = async () => {
   //   const data = await axios
@@ -44,8 +44,8 @@ export default function MainContent() {
   // }
   return (
     <div>
-      <h4>Hello {currentUser.email}</h4>
-      <h1>Bio: {userInfo && userInfo.bio}</h1>
+      <Link to="profile">Profile </Link>
+      <h3>{userInfo.username && "Hello " + userInfo.username}</h3>
       <h2>Main content</h2>
       {/* {childrenData.map((child) => {
         return child.first_name;

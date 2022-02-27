@@ -5,9 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 export default function SignUp() {
   const [loginErr, setLoginErr] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const bioRef = useRef();
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+  const usernameRef = useRef("");
   const { signUp } = useAuth();
   const isMounted = useRef(false);
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function SignUp() {
       await signUp(
         emailRef.current.value,
         passwordRef.current.value,
-        bioRef.current.value
+        usernameRef.current.value
       );
       navigate("/");
     } catch (err) {
@@ -43,15 +43,31 @@ export default function SignUp() {
       <form className="signup-form" onSubmit={handleSignUpSubmit}>
         <div className="email-box">
           <label htmlFor="email">Email</label>
-          <input type="email" ref={emailRef} placeholder="Email Address" />
+          <input
+            id="email"
+            type="email"
+            ref={emailRef}
+            placeholder="Email Address"
+          />
         </div>
         <div className="password-box">
           <label htmlFor="password">Password</label>
-          <input type="password" ref={passwordRef} placeholder="New Password" />
+          <input
+            id="password"
+            type="password"
+            ref={passwordRef}
+            placeholder="New Password"
+          />
         </div>
-        <div className="bio-box">
-          <label htmlFor="bio">Bio</label>
-          <input type="text" ref={bioRef} placeholder="Bio..." />
+        <div className="username-box">
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            required
+            type="text"
+            ref={usernameRef}
+            placeholder="Username"
+          />
         </div>
         <button disabled={loginLoading} type="submit">
           Sign Up

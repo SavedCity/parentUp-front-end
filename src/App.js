@@ -6,19 +6,21 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PageNotFound from "./components/routing/PageNotFound";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import PasswordReset from "./components/authentication/PasswordReset";
+import Profile from "./components/header/profile/Profile";
 
 function App() {
   return (
-    <div>
+    <div style={{ fontFamily: "sans-serif" }}>
       <Router>
         <AuthProvider>
           <Routes>
             <Route element={<PrivateRoute />}>
-              <Route exact path="/" element={<MainContent />} />
+              <Route path="/" element={<MainContent />} />
+              <Route path="profile" element={<Profile />} />
             </Route>
             <Route path="signin" element={<SignIn />} />
+            <Route path="signin/password-reset" element={<PasswordReset />} />
             <Route path="signup" element={<SignUp />} />
-            <Route path="password-reset" element={<PasswordReset />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </AuthProvider>

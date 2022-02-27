@@ -52,7 +52,7 @@ export default function SignIn() {
         </button>
       </form>
       <div>
-        <Link to="/password-reset">Forgot Password</Link>
+        <Link to="password-reset">Forgot Password</Link>
       </div>
       <div>
         Create an account: <Link to="/signup">Sign Up</Link>
