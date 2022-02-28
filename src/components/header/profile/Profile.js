@@ -1,11 +1,18 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  deleteField,
+} from "firebase/firestore";
 import { useRef } from "react";
 
 export default function Profile() {
-  const { userInfo, userCollection, db } = useAuth();
+  const { userInfo, userCollection, currentUser, db } = useAuth();
   const nameRef = useRef("");
   const dobRef = useRef("");
   const genderRef = useRef("");
@@ -27,17 +34,42 @@ export default function Profile() {
 
   const addChild = async (e) => {
     e.preventDefault();
+    const userDoc = doc(db, "users", currentUser.uid);
+    const data = {
+      // children: [
+      //   {
+      name: nameRef.current.value,
+      dob: dobRef.current.value,
+      gender: genderRef.current.value,
+      pob: pobRef.current.value,
+      //   },
+      // ],
+    };
     try {
-      await setDoc(doc(db, "users", "currentUser.uid"), {
-        children: [
-          {
-            name: nameRef.current.value,
-            dob: dobRef.current.value,
-            gender: genderRef.current.value,
-            pob: pobRef.current.value,
-          },
-        ],
-      });
+      // await setDoc(
+      //   doc(db, "users", currentUser.uid),
+      //   {
+      //     children: [
+      //       {
+      //         name: nameRef.current.value,
+      //         dob: dobRef.current.value,
+      //         gender: genderRef.current.value,
+      //         pob: pobRef.current.value,
+      //       },
+      //     ],
+      //   },
+      //   { merge: true }
+      // );
+      // await updateDoc(userDoc, {
+      //   children: arrayUnion(data),
+      // });
+      // await updateDoc(userDoc, {
+      //   children: arrayRemove("children"),
+      // });
+      // await updateDoc(userDoc, {
+      //   children: deleteField(),
+      // });
+      // await db.collection('users').where('children', )
     } catch (err) {
       console.log(err);
     }
