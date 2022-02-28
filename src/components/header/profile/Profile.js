@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import {
@@ -8,6 +8,7 @@ import {
   arrayUnion,
   arrayRemove,
   deleteField,
+  FieldValue,
 } from "firebase/firestore";
 import { useRef } from "react";
 
@@ -34,50 +35,36 @@ export default function Profile() {
 
   const addChild = async (e) => {
     e.preventDefault();
+
     const userDoc = doc(db, "users", currentUser.uid);
-    const data = {
-      // children: [
-      //   {
+
+    const inputs = {
+      date_added: new Date(),
       name: nameRef.current.value,
       dob: dobRef.current.value,
       gender: genderRef.current.value,
       pob: pobRef.current.value,
-      //   },
-      // ],
     };
+
     try {
-      // await setDoc(
-      //   doc(db, "users", currentUser.uid),
-      //   {
-      //     children: [
-      //       {
-      //         name: nameRef.current.value,
-      //         dob: dobRef.current.value,
-      //         gender: genderRef.current.value,
-      //         pob: pobRef.current.value,
-      //       },
-      //     ],
-      //   },
-      //   { merge: true }
-      // );
-      // await updateDoc(userDoc, {
-      //   children: arrayUnion(data),
-      // });
-      // await updateDoc(userDoc, {
-      //   children: arrayRemove("children"),
-      // });
-      // await updateDoc(userDoc, {
-      //   children: deleteField(),
-      // });
-      // await db.collection('users').where('children', )
+      const data = await updateDoc(userDoc, {
+        children: arrayUnion(inputs),
+      });
+      userCollection();
     } catch (err) {
       console.log(err);
     }
   };
 
-  // if (userInfo.created) {
-  //   console.log(userInfo.created.toDate());
-  // }
+  const removeChild = async (e) => {
+    const userDoc = doc(db, "users", currentUser.uid);
+
+    // await updateDoc(userDoc, {
+    //   children: arrayRemove({ name: "something", gender: "Boy" }),
+    // });
+
+    console.log(e.target);
+  };
 
   const handleGenderChange = (e) => {
     genderRef.current = e.target;
@@ -130,6 +117,15 @@ export default function Profile() {
           </form>
         </div>
       </div>
+      {userInfo.children &&
+        userInfo.children.map((child, key) => {
+          return (
+            <div key={key}>
+              <h3>{child.name}</h3>
+              <button onClick={removeChild}>Remove</button>
+            </div>
+          );
+        })}
     </div>
   );
 }
