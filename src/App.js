@@ -1,3 +1,4 @@
+import "./Main.scss";
 import SignIn from "./components/authentication/SignIn";
 import SignUp from "./components/authentication/SignUp";
 import MainContent from "./components/main/MainContent";
