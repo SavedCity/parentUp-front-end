@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(true);
 
   const signUp = async (email, password, username) => {
     const newUser = await auth.createUserWithEmailAndPassword(email, password);
@@ -33,14 +34,13 @@ export function AuthProvider({ children }) {
   };
 
   const userCollection = async () => {
-    if (currentUser) {
-      const data = await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .get()
-        .then((doc) => doc.data());
-      setUserInfo(data);
-    }
+    const data = await db
+      .collection("users")
+      .doc(currentUser.uid)
+      .get()
+      .then((doc) => doc.data());
+    setUserInfo(data);
+    setDataLoading(false);
   };
 
   useEffect(() => {
@@ -62,6 +62,7 @@ export function AuthProvider({ children }) {
     userCollection,
     userInfo,
     db,
+    dataLoading,
   };
 
   return (

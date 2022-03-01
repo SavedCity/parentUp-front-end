@@ -13,7 +13,7 @@ import {
 import { useRef } from "react";
 
 export default function Profile() {
-  const { userInfo, userCollection, currentUser, db } = useAuth();
+  const { userInfo, userCollection, currentUser, db, dataLoading } = useAuth();
   const nameRef = useRef("");
   const dobRef = useRef("");
   const genderRef = useRef("");
@@ -56,14 +56,13 @@ export default function Profile() {
     }
   };
 
-  const removeChild = async (e) => {
+  const removeChild = async (child) => {
     const userDoc = doc(db, "users", currentUser.uid);
 
-    // await updateDoc(userDoc, {
-    //   children: arrayRemove({ name: "something", gender: "Boy" }),
-    // });
-
-    console.log(e.target);
+    await updateDoc(userDoc, {
+      children: arrayRemove(child),
+    });
+    userCollection();
   };
 
   const handleGenderChange = (e) => {
@@ -73,59 +72,67 @@ export default function Profile() {
   return (
     <div>
       <Link to="/">Home</Link>
-      <h1>My profile</h1>
-      <h3>My username: {userInfo.username}</h3>
-
-      <button onClick={openModalAddChild}>Add child</button>
-
-      <div id="addChildModal" style={{ display: "none" }}>
-        <button onClick={closeModalAddChild}>CLOSE</button>
+      {!dataLoading ? (
         <div>
-          <form>
-            <label htmlFor="name">Full name</label>
-            <input ref={nameRef} id="name" type="text" />
+          <h1>My profile</h1>
+          <h3>My username: {userInfo.username}</h3>
 
-            <label htmlFor="dob">Date of birth</label>
-            <input ref={dobRef} id="dob" type="date" />
+          <button onClick={openModalAddChild}>Add child</button>
 
-            <div onChange={handleGenderChange}>
-              <p>Gender</p>
-              <label htmlFor="boy">Boy</label>
-              <input
-                ref={genderRef}
-                name="gender"
-                id="boy"
-                type="radio"
-                value="Boy"
-              />
-              <label htmlFor="girl">Girl</label>
-              <input
-                ref={genderRef}
-                name="gender"
-                id="girl"
-                type="radio"
-                value="Girl"
-              />
+          <div id="addChildModal" style={{ display: "none" }}>
+            <button onClick={closeModalAddChild}>CLOSE</button>
+            <div>
+              <form>
+                <label htmlFor="name">Full name</label>
+                <input ref={nameRef} id="name" type="text" />
+
+                <label htmlFor="dob">Date of birth</label>
+                <input ref={dobRef} id="dob" type="date" />
+
+                <div onChange={handleGenderChange}>
+                  <p>Gender</p>
+                  <label htmlFor="boy">Boy</label>
+                  <input
+                    ref={genderRef}
+                    name="gender"
+                    id="boy"
+                    type="radio"
+                    value="Boy"
+                  />
+                  <label htmlFor="girl">Girl</label>
+                  <input
+                    ref={genderRef}
+                    name="gender"
+                    id="girl"
+                    type="radio"
+                    value="Girl"
+                  />
+                </div>
+
+                <label htmlFor="pob">Place of birth</label>
+                <input ref={pobRef} id="pob" type="text" />
+
+                <button onClick={addChild} type="submit">
+                  Confirm
+                </button>
+              </form>
             </div>
+          </div>
+          {userInfo.children &&
+            userInfo.children.map((child, key) => {
+              const { name, dob, gender } = child;
+              return (
+                <div key={key}>
+                  <h3>{name}</h3>
+                  <h3>{dob}</h3>
+                  <h3>{gender}</h3>
 
-            <label htmlFor="pob">Place of birth</label>
-            <input ref={pobRef} id="pob" type="text" />
-
-            <button onClick={addChild} type="submit">
-              Confirm
-            </button>
-          </form>
+                  <button onClick={(e) => removeChild(child)}>Remove</button>
+                </div>
+              );
+            })}
         </div>
-      </div>
-      {userInfo.children &&
-        userInfo.children.map((child, key) => {
-          return (
-            <div key={key}>
-              <h3>{child.name}</h3>
-              <button onClick={removeChild}>Remove</button>
-            </div>
-          );
-        })}
+      ) : null}
     </div>
   );
 }
