@@ -15,7 +15,7 @@ import { useRef } from "react";
 
 export default function Profile() {
   const { userInfo, userCollection, currentUser, db, dataLoading } = useAuth();
-  const [submittingChild, setSubmittingChild] = useState(false);
+  const [submittingChildSuccess, setSubmittingChildSuccess] = useState(false);
   const nameRef = useRef("");
   const dobRef = useRef("");
   const [gender, setGender] = useState("Boy");
@@ -46,9 +46,14 @@ export default function Profile() {
 
   const addChild = async (e) => {
     e.preventDefault();
+    if (nameRef.current.value.trim() === "") {
+      console.log("works");
+      return;
+    }
     e.target.disabled = true;
-    setSubmittingChild(true);
+    setSubmittingChildSuccess(true);
     let loader = document.getElementById("submit-loader");
+    let toast = document.querySelector(".success-toast");
     loader.style.display = "block";
     const userDoc = doc(db, "users", currentUser.uid);
     const inputs = {
@@ -59,22 +64,25 @@ export default function Profile() {
       pob: pobRef.current.value,
     };
     try {
-      const data = await updateDoc(userDoc, {
+      await updateDoc(userDoc, {
         children: arrayUnion(inputs),
       });
       userCollection();
+      setSubmittingChildSuccess(false);
+      closeAddChildModal();
+      toast.classList.add("toast-show");
+      setTimeout(() => {
+        toast.classList.remove("toast-show");
+      }, 2000);
     } catch (err) {
       console.log(err);
     }
-    closeAddChildModal();
-    setSubmittingChild(false);
     loader.style.display = "none";
     e.target.disabled = false;
   };
 
   const removeChild = async (child) => {
     const userDoc = doc(db, "users", currentUser.uid);
-
     await updateDoc(userDoc, {
       children: arrayRemove(child),
     });
@@ -90,6 +98,9 @@ export default function Profile() {
       <Link to="/">Home</Link>
       {!dataLoading ? (
         <div>
+          <div className="success-toast">
+            <span>Successfully Added!</span>
+          </div>
           <h1>My profile</h1>
           <h3>My username: {userInfo.username}</h3>
 
