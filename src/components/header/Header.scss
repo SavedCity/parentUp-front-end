@@ -122,7 +122,9 @@ $success-color: #52b788;
     input[id="name"]:focus,
     label[for="pob"]:hover ~ input[id="pob"],
     input[id="pob"]:hover,
-    input[id="pob"]:focus {
+    input[id="pob"]:focus,
+    input[id="dob"]:hover,
+    input[id="dob"]:focus {
       padding-left: 8px;
     }
 
@@ -139,6 +141,7 @@ $success-color: #52b788;
 
     input[id="dob"] {
       width: 170px;
+      cursor: text;
     }
 
     .gender-box {
@@ -169,7 +172,7 @@ $success-color: #52b788;
 
     .buttons-container span {
       width: 30%;
-      background-color: #822;
+      background-color: #ee6055;
       padding: 10px;
       color: white;
       font-size: 1.1rem;

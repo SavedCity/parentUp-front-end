@@ -45,15 +45,32 @@ export default function Profile() {
     nameRef.current.value = "";
     dobRef.current.value = "";
     pobRef.current.value = "";
+    setNameErr(false);
+    setFullNameRequired(false);
+    setDobErr(false);
   };
 
   const addChild = async (e) => {
     e.preventDefault();
-    if (nameRef.current.value.trim() === "") {
+    if (nameRef.current.value.trim() === "" && dobRef.current.value === "") {
       setNameErr(true);
+      setDobErr(true);
+      return;
+    } else if (nameRef.current.value.trim() === "") {
+      setNameErr(true);
+      return;
+    } else if (
+      nameRef.current.value.trim().indexOf(" ") === -1 &&
+      dobRef.current.value === ""
+    ) {
+      setFullNameRequired(true);
+      setDobErr(true);
       return;
     } else if (nameRef.current.value.trim().indexOf(" ") === -1) {
       setFullNameRequired(true);
+      return;
+    } else if (dobRef.current.value === "") {
+      setDobErr(true);
       return;
     }
     e.target.disabled = true;
@@ -104,6 +121,10 @@ export default function Profile() {
     setFullNameRequired(false);
   };
 
+  const handleDobChange = (e) => {
+    setDobErr(false);
+  };
+
   return (
     <div>
       <Link to="/">Home</Link>
@@ -143,10 +164,22 @@ export default function Profile() {
                   ref={nameRef}
                   id="name"
                   type="text"
+                  placeholder="ex. Anna Armstrong"
                 />
 
-                <label htmlFor="dob">Date of birth</label>
-                <input ref={dobRef} id="dob" type="date" />
+                <label
+                  style={dobErr ? { color: "#910000" } : null}
+                  htmlFor="dob"
+                >
+                  Date of birth
+                </label>
+                <input
+                  style={dobErr ? { borderColor: "#b10000" } : null}
+                  onChange={handleDobChange}
+                  ref={dobRef}
+                  id="dob"
+                  type="date"
+                />
 
                 <div className="gender-box" onChange={handleGenderChange}>
                   <p>Gender</p>
@@ -163,7 +196,12 @@ export default function Profile() {
                 </div>
 
                 <label htmlFor="pob">Place of birth</label>
-                <input ref={pobRef} id="pob" type="text" />
+                <input
+                  placeholder="ex. Austin, TX"
+                  ref={pobRef}
+                  id="pob"
+                  type="text"
+                />
 
                 <div className="buttons-container">
                   <span onClick={closeAddChildModal}>Cancel</span>
