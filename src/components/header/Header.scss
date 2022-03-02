@@ -125,8 +125,16 @@ $success-color: #52b788;
     input[id="pob"]:focus {
       padding-left: 8px;
     }
+
     input[id="name"] {
       width: 15vw;
+    }
+
+    .name-validation {
+      content: "Both first and last name are required!";
+      font-size: 0.9rem;
+      color: #910000;
+      margin-left: 10px;
     }
 
     input[id="dob"] {
@@ -159,7 +167,7 @@ $success-color: #52b788;
       margin-top: 10px;
     }
 
-    span {
+    .buttons-container span {
       width: 30%;
       background-color: #822;
       padding: 10px;

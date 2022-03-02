@@ -17,7 +17,10 @@ export default function Profile() {
   const { userInfo, userCollection, currentUser, db, dataLoading } = useAuth();
   const [submittingChildSuccess, setSubmittingChildSuccess] = useState(false);
   const nameRef = useRef("");
+  const [nameErr, setNameErr] = useState(false);
+  const [fullNameRequired, setFullNameRequired] = useState(false);
   const dobRef = useRef("");
+  const [dobErr, setDobErr] = useState(false);
   const [gender, setGender] = useState("Boy");
   const pobRef = useRef("");
 
@@ -47,7 +50,10 @@ export default function Profile() {
   const addChild = async (e) => {
     e.preventDefault();
     if (nameRef.current.value.trim() === "") {
-      console.log("works");
+      setNameErr(true);
+      return;
+    } else if (nameRef.current.value.trim().indexOf(" ") === -1) {
+      setFullNameRequired(true);
       return;
     }
     e.target.disabled = true;
@@ -93,6 +99,11 @@ export default function Profile() {
     setGender(e.target.value);
   };
 
+  const handleNameChange = (e) => {
+    setNameErr(false);
+    setFullNameRequired(false);
+  };
+
   return (
     <div>
       <Link to="/">Home</Link>
@@ -109,8 +120,30 @@ export default function Profile() {
           <div id="addChildModal">
             <div>
               <form>
-                <label htmlFor="name">Full name</label>
-                <input ref={nameRef} id="name" type="text" />
+                <label
+                  style={
+                    nameErr || fullNameRequired ? { color: "#910000" } : null
+                  }
+                  htmlFor="name"
+                >
+                  Full name{" "}
+                  {fullNameRequired && (
+                    <span className="name-validation">
+                      Last name is required!
+                    </span>
+                  )}
+                </label>
+                <input
+                  onChange={handleNameChange}
+                  style={
+                    nameErr || fullNameRequired
+                      ? { borderColor: "#b10000" }
+                      : null
+                  }
+                  ref={nameRef}
+                  id="name"
+                  type="text"
+                />
 
                 <label htmlFor="dob">Date of birth</label>
                 <input ref={dobRef} id="dob" type="date" />
