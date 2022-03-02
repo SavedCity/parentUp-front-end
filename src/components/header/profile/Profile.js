@@ -16,7 +16,7 @@ import { useRef } from "react";
 export default function Profile() {
   const { userInfo, userCollection, currentUser, db, dataLoading } = useAuth();
   const [submittingChildSuccess, setSubmittingChildSuccess] = useState(false);
-  const nameRef = useRef("");
+  const [name, setName] = useState("");
   const [nameErr, setNameErr] = useState(false);
   const [fullNameRequired, setFullNameRequired] = useState(false);
   const dobRef = useRef("");
@@ -42,7 +42,7 @@ export default function Profile() {
   const resetAddChildFields = () => {
     let boyInput = document.getElementById("boy");
     boyInput.checked = true;
-    nameRef.current.value = "";
+    setName("");
     dobRef.current.value = "";
     pobRef.current.value = "";
     setNameErr(false);
@@ -52,21 +52,18 @@ export default function Profile() {
 
   const addChild = async (e) => {
     e.preventDefault();
-    if (nameRef.current.value.trim() === "" && dobRef.current.value === "") {
+    if (name.trim() === "" && dobRef.current.value === "") {
       setNameErr(true);
       setDobErr(true);
       return;
-    } else if (nameRef.current.value.trim() === "") {
+    } else if (name.trim() === "") {
       setNameErr(true);
       return;
-    } else if (
-      nameRef.current.value.trim().indexOf(" ") === -1 &&
-      dobRef.current.value === ""
-    ) {
+    } else if (name.trim().indexOf(" ") === -1 && dobRef.current.value === "") {
       setFullNameRequired(true);
       setDobErr(true);
       return;
-    } else if (nameRef.current.value.trim().indexOf(" ") === -1) {
+    } else if (name.trim().indexOf(" ") === -1) {
       setFullNameRequired(true);
       return;
     } else if (dobRef.current.value === "") {
@@ -81,7 +78,7 @@ export default function Profile() {
     const userDoc = doc(db, "users", currentUser.uid);
     const inputs = {
       date_added: new Date(),
-      name: nameRef.current.value,
+      name: name,
       dob: dobRef.current.value,
       gender: gender,
       pob: pobRef.current.value,
@@ -93,10 +90,12 @@ export default function Profile() {
       userCollection();
       setSubmittingChildSuccess(false);
       closeAddChildModal();
-      toast.classList.add("toast-show");
+      setTimeout(() => {
+        toast.classList.add("toast-show");
+      }, 500);
       setTimeout(() => {
         toast.classList.remove("toast-show");
-      }, 2000);
+      }, 2500);
     } catch (err) {
       console.log(err);
     }
@@ -117,6 +116,7 @@ export default function Profile() {
   };
 
   const handleNameChange = (e) => {
+    setName(e.target.value);
     setNameErr(false);
     setFullNameRequired(false);
   };
@@ -131,7 +131,12 @@ export default function Profile() {
       {!dataLoading ? (
         <div>
           <div className="success-toast">
-            <span>Successfully Added!</span>
+            <span>
+              Successfully Added{" "}
+              {userInfo.children[userInfo.children.length - 1] &&
+                userInfo.children[userInfo.children.length - 1].name}
+              !
+            </span>
           </div>
           <h1>My profile</h1>
           <h3>My username: {userInfo.username}</h3>
@@ -161,10 +166,10 @@ export default function Profile() {
                       ? { borderColor: "#b10000" }
                       : null
                   }
-                  ref={nameRef}
                   id="name"
                   type="text"
                   placeholder="ex. Anna Armstrong"
+                  value={name}
                 />
 
                 <label
