@@ -81,6 +81,7 @@ $danger-color: #ee6055;
 }
 
 #addChildModal {
+  display: none;
   background-color: #0007;
   width: 100%;
   height: 100%;
@@ -93,7 +94,6 @@ $danger-color: #ee6055;
   > div {
     background-color: $white-color;
     width: 40vw;
-    // height: 500px;
     padding: 30px 10px;
     display: flex;
     flex-direction: column;
@@ -121,14 +121,33 @@ $danger-color: #ee6055;
       width: 150px;
       height: 150px;
       margin: 0 auto 1em;
-      border: 1px solid $grey-lighter-color;
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
 
     .photo-plus-icon {
       @include text-minimal(2em, $grey-light-color);
+      transition: 0.3s;
+      margin-bottom: 5px;
+    }
+
+    .photo-plus-icon::after {
+      content: "";
+      width: 0;
+      height: 0;
+      transition: 0.3s;
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      background-color: #bbb4;
+      border-radius: 100%;
+    }
+
+    label[for="child-photo-picker"]:hover .photo-plus-icon::after {
+      width: 150px;
+      height: 150px;
     }
 
     .child-current-image {
