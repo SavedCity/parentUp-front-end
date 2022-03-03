@@ -55,6 +55,7 @@ export default function Profile() {
     setDobErr(false);
     setChildPhoto("");
     photoRef.current.value = "";
+    setPreviewChildPhoto("");
   };
 
   const addChild = async (e) => {
@@ -142,8 +143,9 @@ export default function Profile() {
   };
 
   const previewImage = () => {
-    if (childPhoto !== "") {
-      const fileReader = new FileReader();
+    const fileReader = new FileReader();
+
+    if (childPhoto !== "" && childPhoto) {
       fileReader.onload = () => {
         setPreviewChildPhoto(fileReader.result);
       };
@@ -174,11 +176,15 @@ export default function Profile() {
               <h2>Child's Details</h2>
               <form>
                 <label htmlFor="child-photo-picker">
-                  <img
-                    className="child-current-image"
-                    src={previewChildPhoto}
-                    alt=""
-                  />
+                  {previewChildPhoto ? (
+                    <img
+                      className="child-current-image"
+                      src={previewChildPhoto}
+                      alt="child photo"
+                    />
+                  ) : (
+                    <span className="photo-plus-icon">+</span>
+                  )}
                 </label>
                 <input
                   id="child-photo-picker"
