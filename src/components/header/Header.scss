@@ -1,10 +1,16 @@
-$primary-color: #333;
 $white-color: #ffffff;
 $black-med-color: #282828;
 $grey-color: #515151;
 $grey-light-color: #717171;
 $grey-lighter-color: #919191;
 $success-color: #52b788;
+$danger-color: #ee6055;
+
+@mixin text-minimal($size: 1rem, $color: $grey-light-color, $spacing: 0.5px) {
+  font: 300 $size sans-serif;
+  letter-spacing: $spacing;
+  color: $color;
+}
 
 #submit-loader {
   display: none;
@@ -87,11 +93,21 @@ $success-color: #52b788;
   > div {
     background-color: $white-color;
     width: 40vw;
-    height: 500px;
-    padding: 10px;
+    // height: 500px;
+    padding: 30px 10px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     margin: 50px auto 0;
+
+    h2 {
+      width: 50%;
+      margin: 1em auto 1.2em;
+      @include text-minimal(1.5rem, #616161, 1px);
+      font-weight: 400;
+      text-align: center;
+      border-bottom: 1px solid $grey-lighter-color;
+      padding-bottom: 0.8em;
+    }
   }
 
   form {
@@ -100,23 +116,39 @@ $success-color: #52b788;
     width: 50%;
     margin: 0 auto;
 
+    label[for="child-photo-picker"] {
+      // border-radius: 100%;
+      width: 150px;
+      margin: 0 auto 1em;
+      background-color: $grey-light-color;
+      overflow: hidden;
+    }
+
+    .child-current-image {
+      // border-radius: 100%;
+      width: 150px;
+      height: 150px;
+    }
+
+    #child-photo-picker {
+      display: none;
+    }
+
     label {
-      color: $grey-color;
       margin: 0 0 3px;
       cursor: pointer;
-      font: 300 1.1rem sans-serif;
+      @include text-minimal(1.1rem, $grey-color);
     }
 
     input {
       margin-bottom: 15px;
-      letter-spacing: 0.5px;
       padding: 5px;
-      font: 300 1rem sans-serif;
       border-radius: 3px;
       border: 1px solid $grey-lighter-color;
       transition: 0.2s;
       outline: none;
       box-sizing: border-box;
+      @include text-minimal(1rem, $black-med-color);
     }
 
     input:focus,
@@ -153,21 +185,19 @@ $success-color: #52b788;
 
     .gender-box {
       margin-bottom: 10px;
-    }
-    p {
-      margin: 5px 0 5px;
-      color: $grey-color;
-      font: 300 1.1rem sans-serif;
-    }
 
-    label[for="boy"],
-    label[for="girl"] {
-      font: 300 1rem sans-serif;
-      color: #000;
-    }
-    input[id="boy"],
-    input[id="girl"] {
-      margin-right: 15px;
+      p {
+        margin: 5px 0 5px;
+        @include text-minimal(1.1rem, $grey-color);
+      }
+      label[for="boy"],
+      label[for="girl"] {
+        @include text-minimal(1rem, $black-med-color);
+      }
+      input[id="boy"],
+      input[id="girl"] {
+        margin-right: 15px;
+      }
     }
 
     .buttons-container {
@@ -179,12 +209,11 @@ $success-color: #52b788;
 
     .buttons-container span {
       width: 30%;
-      background-color: #ee6055;
+      background-color: $danger-color;
       padding: 10px;
-      color: white;
-      font-size: 1.1rem;
       cursor: pointer;
       text-align: center;
+      @include text-minimal(1.1rem, $white-color);
     }
 
     .buttons-container > div {
@@ -196,10 +225,9 @@ $success-color: #52b788;
       background-color: #52b788;
       border: none;
       padding: 10px;
-      color: white;
-      font-size: 1.1rem;
       cursor: pointer;
       width: 100%;
+      @include text-minimal(1.1rem, $white-color);
     }
   }
 }

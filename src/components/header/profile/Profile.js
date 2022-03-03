@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
+import { storage, db } from "../../../firebase/firebase";
 import "../Header.scss";
 import {
   doc,
@@ -16,6 +17,9 @@ import { useRef } from "react";
 export default function Profile() {
   const { userInfo, userCollection, currentUser, db, dataLoading } = useAuth();
   const [submittingChildSuccess, setSubmittingChildSuccess] = useState(false);
+  const [childPhoto, setChildPhoto] = useState("");
+  const [previewChildPhoto, setPreviewChildPhoto] = useState("");
+  const photoRef = useRef("");
   const [name, setName] = useState("");
   const [nameErr, setNameErr] = useState(false);
   const [fullNameRequired, setFullNameRequired] = useState(false);
@@ -26,7 +30,8 @@ export default function Profile() {
 
   useEffect(() => {
     userCollection();
-  }, []); // eslint-disable-line
+    previewImage();
+  }, [childPhoto]); // eslint-disable-line
 
   const openModalAddChild = () => {
     let modal = document.getElementById("addChildModal");
@@ -48,6 +53,8 @@ export default function Profile() {
     setNameErr(false);
     setFullNameRequired(false);
     setDobErr(false);
+    setChildPhoto("");
+    photoRef.current.value = "";
   };
 
   const addChild = async (e) => {
@@ -76,12 +83,17 @@ export default function Profile() {
     let toast = document.querySelector(".success-toast");
     loader.style.display = "block";
     const userDoc = doc(db, "users", currentUser.uid);
+    const storageRef = storage.ref();
+    const fileRef = storageRef.child(childPhoto.name);
+    await fileRef.put(childPhoto);
     const inputs = {
       date_added: new Date(),
       name: name,
       dob: dobRef.current.value,
       gender: gender,
       pob: pobRef.current.value,
+      photo_name: childPhoto.name,
+      photo_url: await fileRef.getDownloadURL(),
     };
     try {
       await updateDoc(userDoc, {
@@ -95,7 +107,7 @@ export default function Profile() {
       }, 500);
       setTimeout(() => {
         toast.classList.remove("toast-show");
-      }, 2500);
+      }, 3500);
     } catch (err) {
       console.log(err);
     }
@@ -125,6 +137,20 @@ export default function Profile() {
     setDobErr(false);
   };
 
+  const handlePhotoChange = (e) => {
+    setChildPhoto(e.target.files[0]);
+  };
+
+  const previewImage = () => {
+    if (childPhoto !== "") {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewChildPhoto(fileReader.result);
+      };
+      fileReader.readAsDataURL(childPhoto);
+    }
+  };
+
   return (
     <div>
       <Link to="/">Home</Link>
@@ -145,7 +171,22 @@ export default function Profile() {
 
           <div id="addChildModal">
             <div>
+              <h2>Child's Details</h2>
               <form>
+                <label htmlFor="child-photo-picker">
+                  <img
+                    className="child-current-image"
+                    src={previewChildPhoto}
+                    alt=""
+                  />
+                </label>
+                <input
+                  id="child-photo-picker"
+                  type="file"
+                  onChange={handlePhotoChange}
+                  ref={photoRef}
+                />
+
                 <label
                   style={
                     nameErr || fullNameRequired ? { color: "#910000" } : null
@@ -226,12 +267,17 @@ export default function Profile() {
           </div>
           {userInfo.children &&
             userInfo.children.map((child, key) => {
-              const { name, dob, gender } = child;
+              const { name, dob, gender, photo_name, photo_url } = child;
               return (
                 <div key={key}>
                   <h3>{name}</h3>
                   <h3>{dob}</h3>
                   <h3>{gender}</h3>
+                  <img
+                    src={photo_url}
+                    alt={photo_name}
+                    style={{ width: "10%" }}
+                  />
 
                   <button onClick={(e) => removeChild(child)}>Remove</button>
                 </div>
