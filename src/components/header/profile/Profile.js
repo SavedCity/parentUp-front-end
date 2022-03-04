@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-import "../Header.scss";
+import "./Profile.scss";
 import {
   doc,
   // setDoc,

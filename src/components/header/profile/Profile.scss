@@ -81,7 +81,7 @@ $danger-color: #ee6055;
 }
 
 #addChildModal {
-  display: none;
+  // display: none;
   background-color: #0007;
   width: 100%;
   height: 100%;
@@ -127,13 +127,14 @@ $danger-color: #ee6055;
       position: relative;
     }
 
-    .photo-plus-icon {
-      @include text-minimal(2em, $grey-light-color);
+    .photo-icon {
+      font-size: 1.2em;
+      color: $grey-light-color;
       transition: 0.3s;
-      margin-bottom: 5px;
+      margin-top: 8px;
     }
 
-    .photo-plus-icon::after {
+    .photo-icon::after {
       content: "";
       width: 0;
       height: 0;
@@ -145,17 +146,43 @@ $danger-color: #ee6055;
       border-radius: 100%;
     }
 
-    label[for="child-photo-picker"]:hover .photo-plus-icon::after {
+    label[for="child-photo-picker"]:hover .photo-icon::after {
       width: 150px;
       height: 150px;
     }
 
-    .child-current-image {
+    label[for="child-photo-picker"]:hover .current-child-image-container div {
+      visibility: visible;
+      opacity: 1;
+      transition: 0.3s;
+    }
+
+    .current-child-image-container {
+      position: relative;
       border-radius: 100%;
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-      object-position: 0 0;
+
+      img {
+        border-radius: 100%;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        object-position: 0 0;
+        position: relative;
+      }
+
+      div {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        color: #eee;
+        font-size: 2rem;
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.1s;
+      }
     }
 
     #child-photo-picker {
@@ -173,7 +200,7 @@ $danger-color: #ee6055;
       padding: 5px;
       border-radius: 3px;
       border: 1px solid $grey-lighter-color;
-      transition: 0.2s;
+      transition: padding 0.2s;
       outline: none;
       box-sizing: border-box;
       @include text-minimal(1rem, $black-med-color);

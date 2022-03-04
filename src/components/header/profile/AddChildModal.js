@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { useAuth } from "../../../contexts/AuthContext";
 import { storage } from "../../../firebase/firebase";
+import { inputValidation } from "../../InputValidation";
+
+import { AiFillEdit } from "react-icons/ai";
+import { BsImage } from "react-icons/bs";
 
 export default function AddChildModal({ photoRef, dobRef, pobRef }) {
   const { userCollection, currentUser, db } = useAuth();
@@ -9,8 +13,8 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
   const [nameErr, setNameErr] = useState(false);
   const [fullNameRequired, setFullNameRequired] = useState(false);
   const [dobErr, setDobErr] = useState(false);
-  //   const [submittingChildSuccess, setSubmittingChildSuccess] = useState(false);
   const [childPhoto, setChildPhoto] = useState("");
+  const [imageErr, setImageErr] = useState(false);
   const [previewChildPhoto, setPreviewChildPhoto] = useState("");
   const [gender, setGender] = useState("Boy");
 
@@ -30,6 +34,7 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
     setChildPhoto("");
     photoRef.current.value = "";
     setPreviewChildPhoto("");
+    setImageErr(false);
   };
 
   const closeAddChildModal = () => {
@@ -39,27 +44,31 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
   };
 
   const addChild = async (e) => {
+    let awaitingValidation = true;
     e.preventDefault();
-    if (name.trim() === "" && dobRef.current.value === "") {
+
+    if (imageErr && dobErr && nameErr && fullNameRequired) {
+      awaitingValidation = false;
+    }
+
+    if (childPhoto === "") {
+      setImageErr(true);
+    }
+    if (dobRef.current.value === "") {
+      setDobErr(true);
+    }
+    if (name.trim() === "") {
       setNameErr(true);
-      setDobErr(true);
-      return;
-    } else if (name.trim() === "") {
-      setNameErr(true);
-      return;
-    } else if (name.trim().indexOf(" ") === -1 && dobRef.current.value === "") {
+    }
+    if (name.trim() !== "" && name.trim().indexOf(" ") === -1) {
       setFullNameRequired(true);
-      setDobErr(true);
-      return;
-    } else if (name.trim().indexOf(" ") === -1) {
-      setFullNameRequired(true);
-      return;
-    } else if (dobRef.current.value === "") {
-      setDobErr(true);
+    }
+
+    if (awaitingValidation) {
       return;
     }
+
     e.target.disabled = true;
-    // setSubmittingChildSuccess(true);
     let loader = document.getElementById("submit-loader");
     let toast = document.querySelector(".success-toast");
     loader.style.display = "block";
@@ -81,7 +90,6 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
         children: arrayUnion(inputs),
       });
       userCollection();
-      //   setSubmittingChildSuccess(false);
       closeAddChildModal();
       setTimeout(() => {
         toast.classList.add("toast-show");
@@ -112,6 +120,7 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
 
   const handlePhotoChange = (e) => {
     setChildPhoto(e.target.files[0]);
+    setImageErr(false);
   };
 
   const previewImage = () => {
@@ -131,20 +140,25 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
         <form>
           <label
             style={
-              !previewChildPhoto
+              !previewChildPhoto && imageErr
+                ? { border: "1px solid #910000" }
+                : !previewChildPhoto
                 ? { border: "1px solid #919191" }
                 : { border: "1px solid transparent" }
             }
             htmlFor="child-photo-picker"
           >
             {previewChildPhoto && (
-              <img
-                className="child-current-image"
-                src={previewChildPhoto}
-                alt="child"
-              />
+              <div className="current-child-image-container">
+                <img src={previewChildPhoto} alt="child" />
+                <div>
+                  <AiFillEdit />
+                </div>
+              </div>
             )}
-            <span className="photo-plus-icon">{!previewChildPhoto && "+"}</span>
+            <span className="photo-icon">
+              {!previewChildPhoto && <BsImage />}
+            </span>
           </label>
           <input
             id="child-photo-picker"
