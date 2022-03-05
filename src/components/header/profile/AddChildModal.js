@@ -45,6 +45,7 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
 
   const addChild = async (e) => {
     let awaitingValidation = true;
+
     e.preventDefault();
 
     if (imageErr && dobErr && nameErr && fullNameRequired) {
