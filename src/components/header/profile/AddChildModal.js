@@ -17,6 +17,7 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
   const [imageErr, setImageErr] = useState(false);
   const [previewChildPhoto, setPreviewChildPhoto] = useState("");
   const [gender, setGender] = useState("Boy");
+  const [awaitingValidation, setAwaitingValidation] = useState(true);
 
   useEffect(() => {
     previewImage();
@@ -35,6 +36,7 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
     photoRef.current.value = "";
     setPreviewChildPhoto("");
     setImageErr(false);
+    setAwaitingValidation(true);
   };
 
   const closeAddChildModal = () => {
@@ -44,13 +46,7 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
   };
 
   const addChild = async (e) => {
-    let awaitingValidation = true;
-
     e.preventDefault();
-
-    if (imageErr && dobErr && nameErr && fullNameRequired) {
-      awaitingValidation = false;
-    }
 
     if (childPhoto === "") {
       setImageErr(true);
@@ -64,8 +60,14 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
     if (name.trim() !== "" && name.trim().indexOf(" ") === -1) {
       setFullNameRequired(true);
     }
-
-    if (awaitingValidation) {
+    if (
+      awaitingValidation ||
+      imageErr ||
+      dobErr ||
+      nameErr ||
+      fullNameRequired
+    ) {
+      setAwaitingValidation(false);
       return;
     }
 
