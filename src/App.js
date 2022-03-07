@@ -8,6 +8,7 @@ import PageNotFound from "./components/routing/PageNotFound";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import PasswordReset from "./components/authentication/PasswordReset";
 import Profile from "./components/header/profile/Profile";
+import Child from "./components/header/profile/Child";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<MainContent />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="/profile/child-:childId" element={<Child />} />
             </Route>
             <Route path="signin" element={<SignIn />} />
             <Route path="signin/password-reset" element={<PasswordReset />} />

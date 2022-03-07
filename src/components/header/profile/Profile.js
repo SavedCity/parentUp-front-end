@@ -60,7 +60,7 @@ export default function Profile() {
               const { name, dob, gender, photo_name, photo_url } = child;
               return (
                 <div key={key}>
-                  <h3>{name}</h3>
+                  <Link to={`child-${name}`}>{name}</Link>
                   <h3>{dob}</h3>
                   <h3>{gender}</h3>
                   <img
