@@ -4,29 +4,30 @@ import { useAuth } from "../../../contexts/AuthContext";
 
 export default function Child() {
   const { userInfo, userCollection, currentUser, db, dataLoading } = useAuth();
-  const { child } = useParams();
+  const { childId } = useParams();
 
   useEffect(() => {
     userCollection();
   }, []); // eslint-disable-line
 
-  console.log(userInfo);
-
-  if (userInfo.children) {
-    let filteredData = userInfo.children.filter(
-      (childd) => childd.date_added.seconds.toString() === child
-    );
-    console.log(filteredData);
-    console.log(userInfo.children[0].date_added.seconds);
-    console.log(child);
-  }
   return (
     <div>
-      I am...{child}
       {userInfo.children &&
-        userInfo.children.map((child) => {
-          return <div>{child.date_added.seconds}</div>;
-        })}
+        userInfo.children
+          .filter((child) => child.date_added.seconds.toString() === childId)
+          .map((child, key) => {
+            const { name, photo_url, dob, pob, gender } = child;
+            return (
+              <div key={key}>
+                <h1>
+                  {name} ({gender})
+                </h1>
+                <img src={photo_url} style={{ width: "25%" }} />
+                <h3>Born {dob}</h3>
+                <p>Born in {pob}</p>
+              </div>
+            );
+          })}
     </div>
   );
 }

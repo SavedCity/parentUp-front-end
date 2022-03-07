@@ -19,7 +19,7 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<MainContent />} />
               <Route path="profile" element={<Profile />} />
-              <Route path="/profile/:child" element={<Child />} />
+              <Route path="/profile/:childId" element={<Child />} />
             </Route>
             <Route path="signin" element={<SignIn />} />
             <Route path="signin/password-reset" element={<PasswordReset />} />

@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default function SignUp() {
   const [loginErr, setLoginErr] = useState("");
@@ -8,9 +9,11 @@ export default function SignUp() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const usernameRef = useRef("");
+  const [usernameErr, setUsernameErr] = useState(false);
   const { signUp } = useAuth();
   const isMounted = useRef(false);
   const navigate = useNavigate();
+  const { currentUser, db } = useAuth();
 
   useEffect(() => {
     isMounted.current = true;
@@ -19,7 +22,22 @@ export default function SignUp() {
 
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
+    const currentUsername = usernameRef.current.value.toLowerCase();
 
+    const data = query(
+      collection(db, "users"),
+      where("username", "==", currentUsername)
+    );
+    const snapshot = await getDocs(data);
+    let existingUsername;
+    snapshot.forEach((doc) => {
+      existingUsername = doc.data().username.toLowerCase();
+    });
+    if (currentUsername === existingUsername) {
+      setUsernameErr(true);
+      return;
+    }
+    setUsernameErr(false);
     try {
       setLoginErr("");
       setLoginLoading(true);
@@ -40,10 +58,12 @@ export default function SignUp() {
   return (
     <div>
       {loginErr && loginErr}
+      {usernameErr && "Username already exists!"}
       <form className="signup-form" onSubmit={handleSignUpSubmit}>
         <div className="email-box">
           <label htmlFor="email">Email</label>
           <input
+            required
             id="email"
             type="email"
             ref={emailRef}
@@ -53,6 +73,7 @@ export default function SignUp() {
         <div className="password-box">
           <label htmlFor="password">Password</label>
           <input
+            required
             id="password"
             type="password"
             ref={passwordRef}

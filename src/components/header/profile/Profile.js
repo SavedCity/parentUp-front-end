@@ -44,8 +44,9 @@ export default function Profile() {
         <div>
           <div className="success-toast">
             <span>
-              Successfully Added{" "}
-              {userInfo.children[userInfo.children.length - 1] &&
+              Successfully added{" "}
+              {userInfo.children &&
+                userInfo.children[userInfo.children.length - 1] &&
                 userInfo.children[userInfo.children.length - 1].name}
               !
             </span>
@@ -57,21 +58,11 @@ export default function Profile() {
           <AddChildModal photoRef={photoRef} dobRef={dobRef} pobRef={pobRef} />
           {userInfo.children &&
             userInfo.children.map((child, key) => {
-              const { name, dob, gender, photo_name, photo_url, date_added } =
-                child;
+              const { name, date_added } = child;
               let id = date_added.seconds.toString();
               return (
                 <div key={key}>
                   <Link to={id}>{name}</Link>
-                  {date_added.seconds}
-                  <h3>{dob}</h3>
-                  <h3>{gender}</h3>
-                  <img
-                    src={photo_url}
-                    alt={photo_name}
-                    style={{ width: "10%" }}
-                  />
-
                   <button onClick={(e) => removeChild(child)}>Remove</button>
                 </div>
               );
