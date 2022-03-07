@@ -57,10 +57,13 @@ export default function Profile() {
           <AddChildModal photoRef={photoRef} dobRef={dobRef} pobRef={pobRef} />
           {userInfo.children &&
             userInfo.children.map((child, key) => {
-              const { name, dob, gender, photo_name, photo_url } = child;
+              const { name, dob, gender, photo_name, photo_url, date_added } =
+                child;
+              let id = date_added.seconds.toString();
               return (
                 <div key={key}>
-                  <Link to={`child-${name}`}>{name}</Link>
+                  <Link to={id}>{name}</Link>
+                  {date_added.seconds}
                   <h3>{dob}</h3>
                   <h3>{gender}</h3>
                   <img
