@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { useAuth } from "../../../contexts/AuthContext";
 import { storage } from "../../../firebase/firebase";
-import { inputValidation } from "../../InputValidation";
+import { childInputValidation } from "../../InputValidation";
 
 import { AiFillEdit } from "react-icons/ai";
 import { BsImage } from "react-icons/bs";
@@ -11,13 +11,14 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
   const { userCollection, currentUser, db } = useAuth();
   const [name, setName] = useState("");
   const [nameErr, setNameErr] = useState(false);
-  const [fullNameRequired, setFullNameRequired] = useState(false);
+  const [fullNameRequiredErr, setFullNameRequiredErr] = useState(false);
   const [dobErr, setDobErr] = useState(false);
   const [childPhoto, setChildPhoto] = useState("");
   const [imageErr, setImageErr] = useState(false);
   const [previewChildPhoto, setPreviewChildPhoto] = useState("");
   const [gender, setGender] = useState("Boy");
   const [awaitingValidation, setAwaitingValidation] = useState(true);
+  const mounted = useRef();
 
   useEffect(() => {
     previewImage();
@@ -30,7 +31,7 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
     dobRef.current.value = "";
     pobRef.current.value = "";
     setNameErr(false);
-    setFullNameRequired(false);
+    setFullNameRequiredErr(false);
     setDobErr(false);
     setChildPhoto("");
     photoRef.current.value = "";
@@ -46,28 +47,27 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
   };
 
   const addChild = async (e) => {
+    let fieldsPassedValidation = false;
     e.preventDefault();
 
     if (childPhoto === "") {
       setImageErr(true);
+      fieldsPassedValidation = true;
     }
     if (dobRef.current.value === "") {
       setDobErr(true);
+      fieldsPassedValidation = true;
     }
     if (name.trim() === "") {
       setNameErr(true);
+      fieldsPassedValidation = true;
     }
-    if (name.trim() !== "" && name.trim().indexOf(" ") === -1) {
-      setFullNameRequired(true);
+    if (name.trim().indexOf(" ") === -1 && name.trim() !== "") {
+      setFullNameRequiredErr(true);
+      fieldsPassedValidation = true;
     }
-    if (
-      awaitingValidation ||
-      imageErr ||
-      dobErr ||
-      nameErr ||
-      fullNameRequired
-    ) {
-      setAwaitingValidation(false);
+
+    if (fieldsPassedValidation) {
       return;
     }
 
@@ -114,7 +114,7 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
   const handleNameChange = (e) => {
     setName(e.target.value);
     setNameErr(false);
-    setFullNameRequired(false);
+    setFullNameRequiredErr(false);
   };
 
   const handleDobChange = (e) => {
@@ -171,18 +171,18 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
           />
 
           <label
-            style={nameErr || fullNameRequired ? { color: "#910000" } : null}
+            style={nameErr || fullNameRequiredErr ? { color: "#910000" } : null}
             htmlFor="name"
           >
             Full name{" "}
-            {fullNameRequired && (
+            {fullNameRequiredErr && (
               <span className="name-validation">Last name is required!</span>
             )}
           </label>
           <input
             onChange={handleNameChange}
             style={
-              nameErr || fullNameRequired ? { borderColor: "#b10000" } : null
+              nameErr || fullNameRequiredErr ? { borderColor: "#b10000" } : null
             }
             id="name"
             type="text"
