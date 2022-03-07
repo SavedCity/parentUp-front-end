@@ -32,7 +32,6 @@ export default function EditMyProfile() {
     setNewUsername(e.target.value);
     newUsernameRef.current = e.target.value;
     const fieldValue = newUsernameRef.current.toLowerCase();
-
     const data = query(
       collection(db, "users"),
       where("username", "==", fieldValue)
@@ -45,16 +44,12 @@ export default function EditMyProfile() {
     if (fieldValue === existingUsername) {
       setUsernameErr(true);
       return;
-    } else if (fieldValue === userInfo.username) {
-      return;
     }
-
     setUsernameErr(false);
     submit.disabled = false;
   };
   return (
     <div>
-      {usernameErr && "Username already exists!"}
       <form>
         <label htmlFor="edit-username">Edit username</label>
         <input
@@ -64,9 +59,14 @@ export default function EditMyProfile() {
           value={newUsername}
           onChange={handleNewUsernameChange}
         />
+        {newUsernameRef.current === userInfo.username
+          ? ""
+          : !usernameErr
+          ? "✅"
+          : "❌"}
         <button
-          //   disabled={newUsernameRef.current === userInfo.username}
-          disabled
+          disabled={newUsernameRef.current === userInfo.username}
+          //   disabled
           id="edit-profile-btn"
           type="submit"
           onClick={updateProfile}
