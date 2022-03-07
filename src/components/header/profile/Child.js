@@ -22,7 +22,7 @@ export default function Child() {
                 <h1>
                   {name} ({gender})
                 </h1>
-                <img src={photo_url} style={{ width: "25%" }} />
+                <img src={photo_url} alt={name} style={{ width: "25%" }} />
                 <h3>Born {dob}</h3>
                 <p>Born in {pob}</p>
               </div>

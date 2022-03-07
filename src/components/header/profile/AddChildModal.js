@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { useAuth } from "../../../contexts/AuthContext";
 import { storage } from "../../../firebase/firebase";
-// import { childInputValidation } from "../../InputValidation";
 
 import { AiFillEdit } from "react-icons/ai";
 import { BsImage } from "react-icons/bs";

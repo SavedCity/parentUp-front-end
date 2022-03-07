@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import "./Profile.scss";
 import {
@@ -28,7 +28,6 @@ export default function Profile() {
     let modal = document.getElementById("addChildModal");
     modal.style.display = "block";
   };
-
   const removeChild = async (child) => {
     const userDoc = doc(db, "users", currentUser.uid);
     await updateDoc(userDoc, {
@@ -53,6 +52,11 @@ export default function Profile() {
           </div>
           <h1>My profile</h1>
           <h3>My username: {userInfo.username}</h3>
+          <Link to="edit">Edit profile</Link>
+          <Outlet />
+          <br />
+          <br />
+          <br />
 
           <button onClick={openModalAddChild}>Add child</button>
           <AddChildModal photoRef={photoRef} dobRef={dobRef} pobRef={pobRef} />

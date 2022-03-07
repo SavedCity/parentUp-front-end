@@ -1,3 +1,4 @@
+import { doc, getDoc } from "firebase/firestore";
 import React, { useState, useContext, useEffect } from "react";
 import { auth, db } from "../firebase/firebase";
 
@@ -34,11 +35,8 @@ export function AuthProvider({ children }) {
   };
 
   const userCollection = async () => {
-    const data = await db
-      .collection("users")
-      .doc(currentUser.uid)
-      .get()
-      .then((doc) => doc.data());
+    const userDoc = doc(db, "users", currentUser.uid);
+    const data = await getDoc(userDoc).then((doc) => doc.data());
     setUserInfo(data);
     setDataLoading(false);
   };

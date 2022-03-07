@@ -9,6 +9,7 @@ import PrivateRoute from "./components/routing/PrivateRoute";
 import PasswordReset from "./components/authentication/PasswordReset";
 import Profile from "./components/header/profile/Profile";
 import Child from "./components/header/profile/Child";
+import EditMyProfile from "./components/header/profile/EditMyProfile";
 
 function App() {
   return (
@@ -18,7 +19,9 @@ function App() {
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<MainContent />} />
-              <Route path="profile" element={<Profile />} />
+              <Route path="profile" element={<Profile />}>
+                <Route path="edit" element={<EditMyProfile />} />
+              </Route>
               <Route path="/profile/:childId" element={<Child />} />
             </Route>
             <Route path="signin" element={<SignIn />} />

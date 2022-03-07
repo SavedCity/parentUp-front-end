@@ -22,18 +22,18 @@ export default function SignUp() {
 
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
-    const currentUsername = usernameRef.current.value.toLowerCase();
+    const fieldValue = usernameRef.current.value.toLowerCase();
 
     const data = query(
       collection(db, "users"),
-      where("username", "==", currentUsername)
+      where("username", "==", fieldValue)
     );
     const snapshot = await getDocs(data);
     let existingUsername;
     snapshot.forEach((doc) => {
       existingUsername = doc.data().username.toLowerCase();
     });
-    if (currentUsername === existingUsername) {
+    if (fieldValue === existingUsername) {
       setUsernameErr(true);
       return;
     }
