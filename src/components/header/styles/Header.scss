@@ -1,0 +1,41 @@
+@use "../../../base";
+
+.header-container {
+  background-color: #efa7a7;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .header-logo-box {
+    h2 {
+      margin: 0;
+      @include base.text-minimal(1.7rem, base.$black-color, 2px);
+    }
+  }
+}
+
+.header-links-box {
+  display: flex;
+  column-gap: 20px;
+
+  a {
+    text-decoration: none;
+    @include base.text-minimal(1.1rem, base.$black-color);
+    padding: 3px 0;
+  }
+
+  button {
+    @include base.text-minimal(1.1rem, base.$white-color);
+    border: none;
+    background: base.$danger-color;
+    padding: 3px 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: base.$danger-color-hover;
+    }
+  }
+}

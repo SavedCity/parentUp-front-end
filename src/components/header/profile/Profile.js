@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-import "./Profile.scss";
+import ".././styles/Profile.scss";
 import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 import AddChildModal from "./AddChildModal";
 import EditMyProfile from "./EditMyProfile";
@@ -27,9 +27,9 @@ export default function Profile() {
 
   return (
     <div>
-      <Link to="/">Home</Link>
       {!dataLoading ? (
         <div>
+          {/* TOAST  */}
           <div className="success-toast">
             <span>
               Successfully added{" "}
@@ -39,13 +39,15 @@ export default function Profile() {
               !
             </span>
           </div>
-          <h1>My profile</h1>
-          <h3>My username: {userInfo.username}</h3>
+
           <img
             src={userInfo.photo_url}
             alt={userInfo.photo_name}
             style={{ width: "14%" }}
           />
+          <h3>{userInfo.username}</h3>
+          <h3>{userInfo.full_name}</h3>
+
           <EditMyProfile />
 
           <button onClick={openModalAddChild}>Add child</button>

@@ -14,10 +14,11 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(true);
 
-  const signUp = async (email, password, username) => {
+  const signUp = async (email, password, username, fullName) => {
     const newUser = await auth.createUserWithEmailAndPassword(email, password);
     return db.collection("users").doc(newUser.user.uid).set({
       username: username,
+      full_name: fullName,
       date_created: new Date(),
     });
   };

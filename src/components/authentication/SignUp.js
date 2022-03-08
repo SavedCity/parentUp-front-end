@@ -9,11 +9,12 @@ export default function SignUp() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const usernameRef = useRef("");
+  const fullNameRef = useRef("");
   const [usernameErr, setUsernameErr] = useState(false);
   const { signUp } = useAuth();
   const isMounted = useRef(false);
   const navigate = useNavigate();
-  const { currentUser, db } = useAuth();
+  const { db } = useAuth();
 
   useEffect(() => {
     isMounted.current = true;
@@ -44,7 +45,8 @@ export default function SignUp() {
       await signUp(
         emailRef.current.value,
         passwordRef.current.value,
-        usernameRef.current.value
+        usernameRef.current.value,
+        fullNameRef.current.value
       );
       navigate("/");
     } catch (err) {
@@ -70,6 +72,7 @@ export default function SignUp() {
             placeholder="Email Address"
           />
         </div>
+
         <div className="password-box">
           <label htmlFor="password">Password</label>
           <input
@@ -80,6 +83,12 @@ export default function SignUp() {
             placeholder="New Password"
           />
         </div>
+
+        <div className="full-name-box">
+          <label htmlFor="full-name">Full Name</label>
+          <input id="full-name" required type="text" ref={fullNameRef} />
+        </div>
+
         <div className="username-box">
           <label htmlFor="username">Username</label>
           <input
@@ -90,6 +99,7 @@ export default function SignUp() {
             placeholder="Username"
           />
         </div>
+
         <button disabled={loginLoading} type="submit">
           Sign Up
         </button>

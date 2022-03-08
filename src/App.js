@@ -9,13 +9,14 @@ import PrivateRoute from "./components/routing/PrivateRoute";
 import PasswordReset from "./components/authentication/PasswordReset";
 import Profile from "./components/header/profile/Profile";
 import Child from "./components/header/profile/Child";
-import EditMyProfile from "./components/header/profile/EditMyProfile";
+import Header from "./components/header/profile/Header";
 
 function App() {
   return (
     <div style={{ fontFamily: "sans-serif" }}>
       <Router>
         <AuthProvider>
+          <Header />
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<MainContent />} />
