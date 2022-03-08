@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { useAuth } from "../../../contexts/AuthContext";
 import { storage } from "../../../firebase/firebase";
@@ -6,7 +6,7 @@ import { storage } from "../../../firebase/firebase";
 import { AiFillEdit } from "react-icons/ai";
 import { BsImage } from "react-icons/bs";
 
-export default function AddChildModal({ photoRef, dobRef, pobRef }) {
+export default function AddChildModal() {
   const { userCollection, currentUser, db } = useAuth();
   const [name, setName] = useState("");
   const [nameErr, setNameErr] = useState(false);
@@ -16,6 +16,10 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
   const [imageErr, setImageErr] = useState(false);
   const [previewChildPhoto, setPreviewChildPhoto] = useState("");
   const [gender, setGender] = useState("Boy");
+
+  const photoRef = useRef("");
+  const dobRef = useRef("");
+  const pobRef = useRef("");
 
   useEffect(() => {
     previewImage();
@@ -73,18 +77,18 @@ export default function AddChildModal({ photoRef, dobRef, pobRef }) {
     loader.style.display = "block";
     const userDoc = doc(db, "users", currentUser.uid);
     const storageRef = storage.ref();
-    const fileRef = storageRef.child(childPhoto.name);
-    await fileRef.put(childPhoto);
-    const inputs = {
-      date_added: new Date(),
-      name: name,
-      dob: dobRef.current.value,
-      gender: gender,
-      pob: pobRef.current.value,
-      photo_name: childPhoto.name,
-      photo_url: await fileRef.getDownloadURL(),
-    };
     try {
+      const fileRef = storageRef.child(childPhoto.name);
+      await fileRef.put(childPhoto);
+      const inputs = {
+        date_added: new Date(),
+        name: name,
+        dob: dobRef.current.value,
+        gender: gender,
+        pob: pobRef.current.value,
+        photo_name: childPhoto.name,
+        photo_url: await fileRef.getDownloadURL(),
+      };
       await updateDoc(userDoc, {
         children: arrayUnion(inputs),
       });

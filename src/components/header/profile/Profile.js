@@ -1,24 +1,13 @@
 import { useEffect } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import "./Profile.scss";
-import {
-  doc,
-  // setDoc,
-  updateDoc,
-  // arrayUnion,
-  arrayRemove,
-  // deleteField,
-  // FieldValue,
-} from "firebase/firestore";
-import { useRef } from "react";
+import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 import AddChildModal from "./AddChildModal";
+import EditMyProfile from "./EditMyProfile";
 
 export default function Profile() {
   const { userInfo, userCollection, currentUser, db, dataLoading } = useAuth();
-  const photoRef = useRef("");
-  const dobRef = useRef("");
-  const pobRef = useRef("");
 
   useEffect(() => {
     userCollection();
@@ -52,14 +41,15 @@ export default function Profile() {
           </div>
           <h1>My profile</h1>
           <h3>My username: {userInfo.username}</h3>
-          <Link to="edit">Edit profile</Link>
-          <Outlet />
-          <br />
-          <br />
-          <br />
+          <img
+            src={userInfo.photo_url}
+            alt={userInfo.photo_name}
+            style={{ width: "14%" }}
+          />
+          <EditMyProfile />
 
           <button onClick={openModalAddChild}>Add child</button>
-          <AddChildModal photoRef={photoRef} dobRef={dobRef} pobRef={pobRef} />
+          <AddChildModal />
           {userInfo.children &&
             userInfo.children.map((child, key) => {
               const { name, date_added } = child;

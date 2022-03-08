@@ -19,9 +19,7 @@ function App() {
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<MainContent />} />
-              <Route path="profile" element={<Profile />}>
-                <Route path="edit" element={<EditMyProfile />} />
-              </Route>
+              <Route path="profile" element={<Profile />} />
               <Route path="/profile/:childId" element={<Child />} />
             </Route>
             <Route path="signin" element={<SignIn />} />
