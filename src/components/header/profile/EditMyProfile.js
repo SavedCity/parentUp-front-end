@@ -44,10 +44,6 @@ export default function EditMyProfile() {
   };
 
   const handleNewUsernameChange = async (e) => {
-    let str = "Snouter";
-    let sn = "snouter";
-    console.log(str.localeCompare(sn, undefined, { sensitivity: "accent" }));
-
     let submit = document.getElementById("edit-profile-btn");
     submit.disabled = true;
     setNewUsername(e.target.value);
@@ -63,8 +59,11 @@ export default function EditMyProfile() {
       existingUsername = doc.data().usernameLC;
       console.log(existingUsername);
     });
-    if (fieldValue === existingUsername) {
+    if (fieldValue !== userInfo.usernameLC && fieldValue === existingUsername) {
       setUsernameErr(true);
+      return;
+    } else if (newUsernameRef.current === userInfo.username) {
+      submit.disabled = true;
       return;
     }
     setUsernameErr(false);
