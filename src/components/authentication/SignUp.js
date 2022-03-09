@@ -26,12 +26,12 @@ export default function SignUp() {
     const fieldValue = usernameRef.current.value.toLowerCase();
     const data = query(
       collection(db, "users"),
-      where("username", "==", fieldValue)
+      where("usernameLC", "==", fieldValue)
     );
     const snapshot = await getDocs(data);
     let existingUsername;
     snapshot.forEach((doc) => {
-      existingUsername = doc.data().username;
+      existingUsername = doc.data().usernameLC;
     });
     if (fieldValue === existingUsername) {
       setUsernameErr(true);
@@ -53,7 +53,6 @@ export default function SignUp() {
       setLoginErr("Failed to create an account");
       console.log(err);
     }
-
     setLoginLoading(false);
   };
 

@@ -57,7 +57,6 @@ export default function EditMyProfile() {
     let existingUsername;
     snapshot.forEach((doc) => {
       existingUsername = doc.data().usernameLC;
-      console.log(existingUsername);
     });
     if (fieldValue !== userInfo.usernameLC && fieldValue === existingUsername) {
       setUsernameErr(true);
