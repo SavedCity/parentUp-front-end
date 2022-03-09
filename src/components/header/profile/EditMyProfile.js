@@ -48,7 +48,7 @@ export default function EditMyProfile() {
     submit.disabled = true;
     setNewUsername(e.target.value);
     newUsernameRef.current = e.target.value;
-    const fieldValue = newUsernameRef.current.toLowerCase();
+    const fieldValue = newUsernameRef.current;
     const data = query(
       collection(db, "users"),
       where("username", "==", fieldValue)
@@ -56,7 +56,8 @@ export default function EditMyProfile() {
     const snapshot = await getDocs(data);
     let existingUsername;
     snapshot.forEach((doc) => {
-      existingUsername = doc.data().username.toLowerCase();
+      existingUsername = doc.data().username;
+      console.log(existingUsername);
     });
     if (fieldValue === existingUsername) {
       setUsernameErr(true);
