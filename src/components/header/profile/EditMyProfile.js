@@ -44,19 +44,23 @@ export default function EditMyProfile() {
   };
 
   const handleNewUsernameChange = async (e) => {
+    let str = "Snouter";
+    let sn = "snouter";
+    console.log(str.localeCompare(sn, undefined, { sensitivity: "accent" }));
+
     let submit = document.getElementById("edit-profile-btn");
     submit.disabled = true;
     setNewUsername(e.target.value);
     newUsernameRef.current = e.target.value;
-    const fieldValue = newUsernameRef.current;
+    const fieldValue = newUsernameRef.current.toLowerCase();
     const data = query(
       collection(db, "users"),
-      where("username", "==", fieldValue)
+      where("usernameLC", "==", fieldValue)
     );
     const snapshot = await getDocs(data);
     let existingUsername;
     snapshot.forEach((doc) => {
-      existingUsername = doc.data().username;
+      existingUsername = doc.data().usernameLC;
       console.log(existingUsername);
     });
     if (fieldValue === existingUsername) {

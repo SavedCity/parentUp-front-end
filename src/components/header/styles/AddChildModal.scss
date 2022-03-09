@@ -199,10 +199,10 @@
       border-color: base.$black-med-color;
     }
 
-    label[for="name"]:hover ~ input[id="name"],
+    label[for="name"]:hover + input[id="name"],
     input[id="name"]:hover,
     input[id="name"]:focus,
-    label[for="pob"]:hover ~ input[id="pob"],
+    label[for="pob"]:hover + input[id="pob"],
     input[id="pob"]:hover,
     input[id="pob"]:focus,
     input[id="dob"]:hover,

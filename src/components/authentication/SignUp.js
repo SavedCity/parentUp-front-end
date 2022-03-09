@@ -24,7 +24,6 @@ export default function SignUp() {
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     const fieldValue = usernameRef.current.value.toLowerCase();
-
     const data = query(
       collection(db, "users"),
       where("username", "==", fieldValue)
@@ -32,7 +31,7 @@ export default function SignUp() {
     const snapshot = await getDocs(data);
     let existingUsername;
     snapshot.forEach((doc) => {
-      existingUsername = doc.data().username.toLowerCase();
+      existingUsername = doc.data().username;
     });
     if (fieldValue === existingUsername) {
       setUsernameErr(true);
@@ -46,6 +45,7 @@ export default function SignUp() {
         emailRef.current.value,
         passwordRef.current.value,
         usernameRef.current.value,
+        usernameRef.current.value.toLowerCase(),
         fullNameRef.current.value
       );
       navigate("/");
@@ -81,6 +81,7 @@ export default function SignUp() {
             type="password"
             ref={passwordRef}
             placeholder="New Password"
+            autoComplete="new-password"
           />
         </div>
 
