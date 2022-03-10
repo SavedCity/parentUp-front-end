@@ -10,14 +10,19 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { db, storage } from "../../../firebase/firebase";
+import { AiFillEdit } from "react-icons/ai";
 
-export default function EditMyProfile() {
+export default function EditMyProfile({ toggleEdit }) {
   const { userInfo, currentUser, userCollection } = useAuth();
+  const newFullNameRef = useRef(userInfo.full_name);
+  const [newFullName, setNewFullName] = useState(userInfo.full_name);
   const newUsernameRef = useRef(userInfo.username);
   const [newUsername, setNewUsername] = useState(userInfo.username);
   const [usernameErr, setUsernameErr] = useState(false);
-  const [childPhoto, setChildPhoto] = useState("");
-  const [previewChildPhoto, setPreviewChildPhoto] = useState("");
+  const [childPhoto, setChildPhoto] = useState(userInfo.photo_url);
+  const [previewChildPhoto, setPreviewChildPhoto] = useState(
+    userInfo.photo_url
+  );
 
   const photoRef = useRef("");
 
@@ -26,25 +31,47 @@ export default function EditMyProfile() {
   }, [childPhoto]); // eslint-disable-line
 
   const updateProfile = async (e) => {
+    let submitBtn = document.getElementById("edit-submit-btn");
     e.preventDefault();
     const userDoc = doc(db, "users", currentUser.uid);
     const storageRef = storage.ref();
     try {
-      const fileRef = storageRef.child(childPhoto.name);
-      await fileRef.put(childPhoto);
+      let fileRef;
+      if (childPhoto !== userInfo.photo_url) {
+        fileRef = storageRef.child(childPhoto.name);
+        await fileRef.put(childPhoto);
+      }
       await updateDoc(userDoc, {
-        username: newUsernameRef.current,
-        photo_name: childPhoto.name,
-        photo_url: await fileRef.getDownloadURL(),
+        full_name: newFullName,
+        username: newUsername,
+        photo_name:
+          childPhoto !== userInfo.photo_url
+            ? childPhoto.name
+            : userInfo.photo_name,
+        photo_url:
+          childPhoto !== userInfo.photo_url
+            ? await fileRef.getDownloadURL()
+            : userInfo.photo_url,
       });
     } catch (err) {
       console.log(err);
     }
+    if (
+      newUsername === userInfo.username &&
+      newFullName === userInfo.full_name &&
+      previewChildPhoto === userInfo.photo_url
+    ) {
+      submitBtn.disabled = true;
+    }
     userCollection();
   };
 
+  const handleNewFullNameChange = (e) => {
+    setNewFullName(e.target.value);
+  };
+
   const handleNewUsernameChange = async (e) => {
-    let submit = document.getElementById("edit-profile-btn");
+    let submit = document.getElementById("edit-submit-btn");
     submit.disabled = true;
     setNewUsername(e.target.value);
     newUsernameRef.current = e.target.value;
@@ -75,7 +102,7 @@ export default function EditMyProfile() {
 
   const previewImage = () => {
     const fileReader = new FileReader();
-    if (childPhoto !== "" && childPhoto) {
+    if (childPhoto !== "" && childPhoto !== userInfo.photo_url && childPhoto) {
       fileReader.onload = () => {
         setPreviewChildPhoto(fileReader.result);
       };
@@ -84,41 +111,58 @@ export default function EditMyProfile() {
   };
   return (
     <div>
-      <form>
-        <label htmlFor="user-photo-picker">
-          <div className="current-child-image-container">
-            <img src={previewChildPhoto} alt="child" style={{ width: "5%" }} />
-          </div>
-          <span className="photo-icon"></span>
-        </label>
-        <input
-          id="user-photo-picker"
-          type="file"
-          onChange={handlePhotoChange}
-          ref={photoRef}
-        />
-        <label htmlFor="edit-username">Edit username</label>
-        <input
-          id="edit-username"
-          type="text"
-          ref={newUsernameRef}
-          value={newUsername}
-          onChange={handleNewUsernameChange}
-        />
-        {newUsername === userInfo.username ? "" : !usernameErr ? "✅" : "❌"}
-        <button
-          disabled={newUsername === userInfo.username}
-          id="edit-profile-btn"
-          type="submit"
-          onClick={updateProfile}
-        >
-          Save
-        </button>
-      </form>
+      <div className="edit-user-personal-info">
+        <div>
+          <label htmlFor="user-photo-picker">
+            <img src={previewChildPhoto} alt="child" />
+            <input
+              id="user-photo-picker"
+              type="file"
+              onChange={handlePhotoChange}
+              ref={photoRef}
+              accept="image/*"
+              hidden
+            />
+          </label>
 
-      <br />
-      <br />
-      <br />
+          <section className="names-section">
+            <input
+              id="edit-full-name"
+              type="text"
+              ref={newFullNameRef}
+              value={newFullName}
+              onChange={handleNewFullNameChange}
+            />
+            <div>
+              <input
+                id="edit-username"
+                type="text"
+                ref={newUsernameRef}
+                value={newUsername}
+                onChange={handleNewUsernameChange}
+              />
+              {newUsername === userInfo.username
+                ? ""
+                : !usernameErr
+                ? "✅"
+                : "❌"}
+            </div>
+          </section>
+        </div>
+        <AiFillEdit className="toggle-edit-profile" onClick={toggleEdit} />
+      </div>
+      <button
+        disabled={
+          newUsername === userInfo.username &&
+          newFullName === userInfo.full_name &&
+          previewChildPhoto === userInfo.photo_url
+        }
+        id="edit-submit-btn"
+        type="submit"
+        onClick={updateProfile}
+      >
+        Save
+      </button>
     </div>
   );
 }

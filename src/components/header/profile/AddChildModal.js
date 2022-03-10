@@ -50,7 +50,6 @@ export default function AddChildModal() {
   const addChild = async (e) => {
     let fieldsPassedValidation = false;
     e.preventDefault();
-
     if (childPhoto === "") {
       setImageErr(true);
       fieldsPassedValidation = true;
@@ -67,11 +66,9 @@ export default function AddChildModal() {
       setFullNameRequiredErr(true);
       fieldsPassedValidation = true;
     }
-
     if (fieldsPassedValidation) {
       return;
     }
-
     e.target.disabled = true;
     let loader = document.getElementById("submit-loader");
     let toast = document.querySelector(".success-toast");
@@ -169,6 +166,8 @@ export default function AddChildModal() {
             type="file"
             onChange={handlePhotoChange}
             ref={photoRef}
+            accept="image/*"
+            hidden
           />
 
           <label

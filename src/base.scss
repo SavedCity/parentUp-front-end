@@ -8,8 +8,14 @@ $success-color: #52b788;
 $danger-color: #ee6055;
 $danger-color-hover: #db574e;
 
-@mixin text-minimal($size: 1rem, $color: $grey-light-color, $spacing: 0.5px) {
-  font: 300 $size sans-serif;
+@mixin text-minimal(
+  $size: 1rem,
+  $color: $grey-light-color,
+  $spacing: 0.5px,
+  $font-f: montserrat,
+  $font-w: 400
+) {
+  font: $font-w $size $font-f;
   letter-spacing: $spacing;
   color: $color;
 }

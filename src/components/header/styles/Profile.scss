@@ -1,0 +1,124 @@
+@use "../../../base";
+
+.profile-main {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.main-user-info-container {
+  box-sizing: border-box;
+  background-color: #edede944;
+  border-right: 1px solid #00000010;
+  width: 50%;
+  padding: 3em 8em;
+
+  .user-personal-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > div {
+      display: flex;
+      align-items: center;
+      column-gap: 2em;
+    }
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      object-fit: cover;
+      object-position: 0 0;
+    }
+
+    input {
+      border-color: transparent;
+      background-color: transparent;
+      outline: none;
+    }
+  }
+}
+
+////////// EDIT USER INFORMAION /////////
+
+.edit-user-personal-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > div {
+    display: flex;
+    align-items: center;
+    column-gap: 2em;
+  }
+
+  label[for="user-photo-picker"] {
+    height: 100px;
+    user-select: none;
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      object-fit: cover;
+      object-position: 0 0;
+    }
+  }
+}
+
+//////// BOTH INFO DISPLAY AND INFO EDIT ///////
+
+.toggle-edit-profile {
+  font-size: 2em;
+  cursor: pointer;
+
+  &:hover {
+    color: #282828;
+  }
+}
+
+.names-section {
+  display: flex;
+  flex-direction: column;
+
+  input {
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    padding: 1px 0 1px 5px;
+    box-sizing: border-box;
+  }
+
+  input[id="profile-full-name"],
+  input[id="edit-full-name"] {
+    @include base.text-minimal(
+      1.3rem,
+      base.$black-med-color,
+      0.5px,
+      montserrat,
+      400
+    );
+    margin: 0 0 6px;
+  }
+
+  input[id="edit-username"],
+  input[id="profile-username"] {
+    @include base.text-minimal(
+      1rem,
+      base.$grey-light-color,
+      0.5px,
+      work sans,
+      300
+    );
+    margin: 0;
+  }
+}
+
+//////// ADDITIONAL PERSONAL INFORMATION /////////
+
+.additional-user-info-container {
+  box-sizing: border-box;
+  width: 50%;
+  padding: 3em 8em;
+}

@@ -2,18 +2,18 @@ import "./Main.scss";
 import SignIn from "./components/authentication/SignIn";
 import SignUp from "./components/authentication/SignUp";
 import MainContent from "./components/main/MainContent";
-import { AuthProvider } from "./contexts/AuthContext";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PageNotFound from "./components/routing/PageNotFound";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import PasswordReset from "./components/authentication/PasswordReset";
 import Profile from "./components/header/profile/Profile";
 import Child from "./components/header/profile/Child";
 import Header from "./components/header/profile/Header";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   return (
-    <div style={{ fontFamily: "sans-serif" }}>
+    <div>
       <Router>
         <AuthProvider>
           <Header />
