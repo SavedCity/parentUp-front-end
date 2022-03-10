@@ -14,16 +14,16 @@
   width: 50%;
   padding: 3em 8em;
 
-  .user-personal-info {
+  > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
 
-    > div {
-      display: flex;
-      align-items: center;
-      column-gap: 2em;
-    }
+  .user-personal-info {
+    display: flex;
+    align-items: center;
+    column-gap: 2em;
 
     img {
       width: 100px;
@@ -70,12 +70,42 @@
 
 //////// BOTH INFO DISPLAY AND INFO EDIT ///////
 
-.toggle-edit-profile {
-  font-size: 2em;
+.edit-profile-toggle {
+  background-color: base.$grey-xxl-color;
+  width: 45px;
+  height: 16px;
+  border-radius: 100px;
   cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    color: #282828;
+    background-color: #b1b1b1;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: whitesmoke;
+    border-radius: 100%;
+    transform: translateX(5px);
+    transition: transform 0.2s ease-in-out;
+  }
+}
+
+.edit-active {
+  background-color: base.$success-color;
+
+  &:hover {
+    background-color: #4daa7f;
+  }
+
+  &::after {
+    transform: translateX(31px);
   }
 }
 
@@ -104,13 +134,7 @@
 
   input[id="edit-username"],
   input[id="profile-username"] {
-    @include base.text-minimal(
-      1rem,
-      base.$grey-light-color,
-      0.5px,
-      work sans,
-      300
-    );
+    @include base.text-minimal(1rem, base.$grey-l-color, 0.5px, work sans, 300);
     margin: 0;
   }
 }

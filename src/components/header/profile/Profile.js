@@ -5,7 +5,6 @@ import ".././styles/Profile.scss";
 import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 import AddChildModal from "./AddChildModal";
 import EditMyProfile from "./EditMyProfile";
-import { AiFillEdit } from "react-icons/ai";
 
 export default function Profile() {
   const [infoEditable, setInfoEditable] = useState(false);
@@ -27,7 +26,11 @@ export default function Profile() {
     userCollection();
   };
 
-  const toggleEdit = () => {
+  const toggleEdit = (e) => {
+    let toggleBtn = document.querySelector(".edit-profile-toggle");
+    if (infoEditable) {
+      toggleBtn.classList.remove("edit-active");
+    } else toggleBtn.classList.add("edit-active");
     setInfoEditable(!infoEditable);
   };
 
@@ -46,9 +49,9 @@ export default function Profile() {
       {!dataLoading ? (
         <div className="profile-main">
           <div className="main-user-info-container">
-            {!infoEditable ? (
-              <div className="user-personal-info">
-                <div>
+            <div>
+              {!infoEditable ? (
+                <div className="user-personal-info">
                   <img src={userInfo.photo_url} alt={userInfo.photo_name} />
                   <section className="names-section">
                     <input
@@ -63,14 +66,18 @@ export default function Profile() {
                     />
                   </section>
                 </div>
-                <AiFillEdit
-                  className="toggle-edit-profile"
+              ) : (
+                <EditMyProfile toggleEdit={toggleEdit} />
+              )}
+              <label htmlFor="edit-profile">
+                Edit
+                <div
+                  id="edit-profile"
                   onClick={toggleEdit}
-                />
-              </div>
-            ) : (
-              <EditMyProfile toggleEdit={toggleEdit} />
-            )}
+                  className="edit-profile-toggle"
+                ></div>
+              </label>
+            </div>
           </div>
 
           <div className="additional-user-info-container">

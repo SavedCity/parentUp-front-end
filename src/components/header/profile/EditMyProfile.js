@@ -10,7 +10,6 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { db, storage } from "../../../firebase/firebase";
-import { AiFillEdit } from "react-icons/ai";
 
 export default function EditMyProfile({ toggleEdit }) {
   const { userInfo, currentUser, userCollection } = useAuth();
@@ -44,6 +43,7 @@ export default function EditMyProfile({ toggleEdit }) {
       await updateDoc(userDoc, {
         full_name: newFullName,
         username: newUsername,
+        usernameLC: newUsername.toLowerCase(),
         photo_name:
           childPhoto !== userInfo.photo_url
             ? childPhoto.name
@@ -63,7 +63,8 @@ export default function EditMyProfile({ toggleEdit }) {
     ) {
       submitBtn.disabled = true;
     }
-    userCollection();
+    await userCollection();
+    toggleEdit();
   };
 
   const handleNewFullNameChange = (e) => {
@@ -110,46 +111,43 @@ export default function EditMyProfile({ toggleEdit }) {
     }
   };
   return (
-    <div>
-      <div className="edit-user-personal-info">
-        <div>
-          <label htmlFor="user-photo-picker">
-            <img src={previewChildPhoto} alt="child" />
-            <input
-              id="user-photo-picker"
-              type="file"
-              onChange={handlePhotoChange}
-              ref={photoRef}
-              accept="image/*"
-              hidden
-            />
-          </label>
+    <div className="edit-user-personal-info">
+      <div>
+        <label htmlFor="user-photo-picker">
+          <img src={previewChildPhoto} alt="child" />
+          <input
+            id="user-photo-picker"
+            type="file"
+            onChange={handlePhotoChange}
+            ref={photoRef}
+            accept="image/*"
+            hidden
+          />
+        </label>
 
-          <section className="names-section">
+        <section className="names-section">
+          <input
+            id="edit-full-name"
+            type="text"
+            ref={newFullNameRef}
+            value={newFullName}
+            onChange={handleNewFullNameChange}
+          />
+          <div>
             <input
-              id="edit-full-name"
+              id="edit-username"
               type="text"
-              ref={newFullNameRef}
-              value={newFullName}
-              onChange={handleNewFullNameChange}
+              ref={newUsernameRef}
+              value={newUsername}
+              onChange={handleNewUsernameChange}
             />
-            <div>
-              <input
-                id="edit-username"
-                type="text"
-                ref={newUsernameRef}
-                value={newUsername}
-                onChange={handleNewUsernameChange}
-              />
-              {newUsername === userInfo.username
-                ? ""
-                : !usernameErr
-                ? "✅"
-                : "❌"}
-            </div>
-          </section>
-        </div>
-        <AiFillEdit className="toggle-edit-profile" onClick={toggleEdit} />
+            {newUsername === userInfo.username
+              ? ""
+              : !usernameErr
+              ? "✅"
+              : "❌"}
+          </div>
+        </section>
       </div>
       <button
         disabled={
