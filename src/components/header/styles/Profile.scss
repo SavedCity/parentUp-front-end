@@ -70,6 +70,58 @@
 
 //////// BOTH INFO DISPLAY AND INFO EDIT ///////
 
+label[for="edit-profile"] {
+  @include base.text-minimal();
+  display: flex;
+  align-items: center;
+  transition: color 0.3s;
+
+  .edit-lock {
+    background-color: base.$grey-xxl-color;
+    width: 13px;
+    height: 12px;
+    border-radius: 3px;
+    margin-left: 5px;
+    position: relative;
+    transition: background-color 0.3s ease;
+    margin-top: 2px;
+
+    &::after {
+      content: "";
+      background-color: base.$white-color;
+      width: 4px;
+      height: 4px;
+      position: absolute;
+      border-radius: 100%;
+      margin: 4px auto auto;
+      inset: 0;
+    }
+
+    &::before {
+      content: "";
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      border: 2px solid base.$grey-xxl-color;
+      border-bottom: 0;
+      width: 6px;
+      height: 5px;
+      position: absolute;
+      transform-origin: 0 100%;
+      transform: translate(1px, -5.5px);
+      transition: border-color 0.3s, transform 0.3s ease;
+    }
+  }
+
+  .edit-lock-active {
+    background-color: base.$success-color;
+    &::before {
+      border: 2px solid base.$success-color;
+      border-bottom: 0;
+      transform: rotate(-35deg) translate(4px, -2px);
+    }
+  }
+}
+
 .edit-profile-toggle {
   background-color: base.$grey-xxl-color;
   width: 45px;
@@ -80,6 +132,7 @@
   display: flex;
   align-items: center;
   transition: background-color 0.2s ease-in-out;
+  margin-right: 10px;
 
   &:hover {
     background-color: #b1b1b1;
@@ -101,7 +154,7 @@
   background-color: base.$success-color;
 
   &:hover {
-    background-color: #4daa7f;
+    background-color: #4ea17b;
   }
 
   &::after {
