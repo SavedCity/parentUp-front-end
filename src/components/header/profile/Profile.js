@@ -29,15 +29,15 @@ export default function Profile() {
   const toggleEdit = () => {
     let toggleBtn = document.querySelector(".edit-profile-toggle");
     let lock = document.querySelector(".edit-lock");
-    let edit = document.querySelector("label[for=edit-profile]");
+    let editText = document.querySelector("label[for=edit-profile]");
     if (infoEditable) {
       toggleBtn.classList.remove("edit-active");
       lock.classList.remove("edit-lock-active");
-      edit.style.color = "#717171";
+      editText.style.color = "#717171";
     } else {
       toggleBtn.classList.add("edit-active");
       lock.classList.add("edit-lock-active");
-      edit.style.color = "#52b788";
+      editText.style.color = "#52b788";
     }
     setInfoEditable(!infoEditable);
   };
@@ -77,12 +77,8 @@ export default function Profile() {
               ) : (
                 <EditMyProfile toggleEdit={toggleEdit} />
               )}
-              <label htmlFor="edit-profile">
-                <div
-                  id="edit-profile"
-                  onClick={toggleEdit}
-                  className="edit-profile-toggle"
-                ></div>
+              <label onClick={toggleEdit} htmlFor="edit-profile">
+                <div id="edit-profile" className="edit-profile-toggle"></div>
                 Edit
                 <div className="edit-lock"></div>
               </label>

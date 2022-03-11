@@ -56,7 +56,38 @@
 
   label[for="user-photo-picker"] {
     height: 100px;
-    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    border-radius: 100%;
+
+    > span {
+      font-size: 1.2em;
+      color: #eee;
+      transition: 0.3s;
+      position: absolute;
+    }
+
+    &::after {
+      content: "";
+      width: 0;
+      height: 0;
+      transition: 0.3s;
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      background-color: #bbb4;
+      border-radius: 100%;
+    }
+
+    &:hover {
+      &::after {
+        width: 100px;
+        height: 100px;
+      }
+    }
 
     img {
       width: 100px;
@@ -75,6 +106,7 @@ label[for="edit-profile"] {
   display: flex;
   align-items: center;
   transition: color 0.3s;
+  cursor: pointer;
 
   .edit-lock {
     background-color: base.$grey-xxl-color;
@@ -122,12 +154,18 @@ label[for="edit-profile"] {
   }
 }
 
+label[for="edit-profile"]:hover .edit-profile-toggle {
+  background-color: #b1b1b1;
+}
+label[for="edit-profile"]:hover .edit-profile-toggle.edit-active {
+  background-color: #4ea17b;
+}
+
 .edit-profile-toggle {
   background-color: base.$grey-xxl-color;
   width: 45px;
   height: 16px;
   border-radius: 100px;
-  cursor: pointer;
   position: relative;
   display: flex;
   align-items: center;

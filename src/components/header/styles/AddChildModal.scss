@@ -120,18 +120,18 @@
       color: base.$grey-l-color;
       transition: 0.3s;
       margin-top: 8px;
-    }
 
-    .photo-icon::after {
-      content: "";
-      width: 0;
-      height: 0;
-      transition: 0.3s;
-      position: absolute;
-      inset: 0;
-      margin: auto;
-      background-color: #bbb4;
-      border-radius: 100%;
+      &::after {
+        content: "";
+        width: 0;
+        height: 0;
+        transition: 0.3s;
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        background-color: #bbb4;
+        border-radius: 100%;
+      }
     }
 
     label[for="child-photo-picker"]:hover .photo-icon::after {

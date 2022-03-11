@@ -10,6 +10,7 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { db, storage } from "../../../firebase/firebase";
+import { AiFillEdit } from "react-icons/ai";
 
 export default function EditMyProfile({ toggleEdit }) {
   const { userInfo, currentUser, userCollection } = useAuth();
@@ -114,6 +115,9 @@ export default function EditMyProfile({ toggleEdit }) {
     <div className="edit-user-personal-info">
       <div>
         <label htmlFor="user-photo-picker">
+          <span>
+            <AiFillEdit />
+          </span>
           <img src={previewChildPhoto} alt="child" />
           <input
             id="user-photo-picker"
@@ -131,6 +135,7 @@ export default function EditMyProfile({ toggleEdit }) {
             type="text"
             ref={newFullNameRef}
             value={newFullName}
+            placeholder="Full Name"
             onChange={handleNewFullNameChange}
           />
           <div>
@@ -139,6 +144,7 @@ export default function EditMyProfile({ toggleEdit }) {
               type="text"
               ref={newUsernameRef}
               value={newUsername}
+              placeholder="Username"
               onChange={handleNewUsernameChange}
             />
             {newUsername === userInfo.username
