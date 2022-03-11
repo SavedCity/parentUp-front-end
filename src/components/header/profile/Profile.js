@@ -30,14 +30,17 @@ export default function Profile() {
   };
 
   const toggleEdit = () => {
+    // let container = document.querySelector(".main-user-info-container");
     let toggleBtn = document.querySelector(".edit-profile-toggle");
     let lock = document.querySelector(".edit-lock");
     let editText = document.querySelector("label[for=edit-profile]");
     if (infoEditable) {
+      // container.style.backgroundColor = "#edede944";
       toggleBtn.classList.remove("edit-active");
       lock.classList.remove("edit-lock-active");
       editText.style.color = "#717171";
     } else {
+      // container.style.backgroundColor = "#d0ffb777";
       toggleBtn.classList.add("edit-active");
       lock.classList.add("edit-lock-active");
       editText.style.color = "#52b788";
