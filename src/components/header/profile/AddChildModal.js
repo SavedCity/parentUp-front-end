@@ -43,7 +43,7 @@ export default function AddChildModal() {
 
   const closeAddChildModal = () => {
     let modal = document.getElementById("addChildModal");
-    modal.style.display = "none";
+    modal.classList.remove("child-modal-display");
     resetAddChildFields();
   };
 

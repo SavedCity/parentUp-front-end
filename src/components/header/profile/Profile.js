@@ -14,9 +14,12 @@ export default function Profile() {
     userCollection();
   }, []); // eslint-disable-line
 
-  const openModalAddChild = () => {
+  const openAddChildModal = () => {
+    if (infoEditable) {
+      toggleEdit();
+    }
     let modal = document.getElementById("addChildModal");
-    modal.style.display = "block";
+    modal.classList.add("child-modal-display");
   };
   const removeChild = async (child) => {
     const userDoc = doc(db, "users", currentUser.uid);
@@ -86,7 +89,7 @@ export default function Profile() {
           </div>
 
           <div className="additional-user-info-container">
-            <button onClick={openModalAddChild}>Add child</button>
+            <button onClick={openAddChildModal}>Add child</button>
             <AddChildModal />
             {userInfo.children &&
               userInfo.children.map((child, key) => {
