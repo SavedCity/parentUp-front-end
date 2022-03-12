@@ -1,18 +1,33 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import ".././styles/Profile.scss";
-import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 import AddChildModal from "./AddChildModal";
 import EditMyProfile from "./EditMyProfile";
 
 export default function Profile() {
   const [infoEditable, setInfoEditable] = useState(false);
-  const { userInfo, userCollection, currentUser, db, dataLoading } = useAuth();
+  const { userInfo, userCollection, dataLoading } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
     userCollection();
+    // if (location.state && location.state.id) {
+    //   childRemoved();
+    // }
   }, []); // eslint-disable-line
+
+  console.log(location);
+
+  const childRemoved = () => {
+    let toast = document.querySelector(".removing-child-toast");
+    setTimeout(() => {
+      toast.classList.add("show-child-toast");
+    }, 250);
+    setTimeout(() => {
+      toast.classList.remove("show-child-toast");
+    }, 3500);
+  };
 
   const openAddChildModal = () => {
     if (infoEditable) {
@@ -20,13 +35,6 @@ export default function Profile() {
     }
     let modal = document.getElementById("addChildModal");
     modal.classList.add("child-modal-display");
-  };
-  const removeChild = async (child) => {
-    const userDoc = doc(db, "users", currentUser.uid);
-    await updateDoc(userDoc, {
-      children: arrayRemove(child),
-    });
-    userCollection();
   };
 
   const toggleEdit = () => {
@@ -51,7 +59,7 @@ export default function Profile() {
   return (
     <div>
       {/* TOAST  */}
-      <div className="success-toast">
+      <div className="adding-child-toast">
         <span>
           Successfully added{" "}
           {userInfo.children &&
@@ -60,6 +68,13 @@ export default function Profile() {
           !
         </span>
       </div>
+
+      <div className="removing-child-toast">
+        <span>
+          Successfully removed {location.state && location.state.name}!
+        </span>
+      </div>
+
       {!dataLoading ? (
         <div className="profile-main">
           <div className="main-user-info-container">
@@ -101,7 +116,6 @@ export default function Profile() {
                 return (
                   <div key={key}>
                     <Link to={id}>{name}</Link>
-                    <button onClick={(e) => removeChild(child)}>Remove</button>
                   </div>
                 );
               })}

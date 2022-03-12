@@ -71,15 +71,16 @@ export default function AddChildModal() {
     }
     e.target.disabled = true;
     let loader = document.getElementById("submit-loader");
-    let toast = document.querySelector(".success-toast");
+    let toast = document.querySelector(".adding-child-toast");
     loader.style.display = "block";
     const userDoc = doc(db, "users", currentUser.uid);
     const storageRef = storage.ref();
     try {
       const fileRef = storageRef.child(childPhoto.name);
+      const currentDate = new Date();
       await fileRef.put(childPhoto);
       const inputs = {
-        date_added: new Date(),
+        date_added: currentDate,
         name: name,
         dob: dobRef.current.value,
         gender: gender,
@@ -93,10 +94,10 @@ export default function AddChildModal() {
       userCollection();
       closeAddChildModal();
       setTimeout(() => {
-        toast.classList.add("toast-show");
-      }, 500);
+        toast.classList.add("show-child-toast");
+      }, 250);
       setTimeout(() => {
-        toast.classList.remove("toast-show");
+        toast.classList.remove("show-child-toast");
       }, 3500);
     } catch (err) {
       console.log(err);

@@ -1,0 +1,36 @@
+@use "../../../base";
+
+.removing-child-toast {
+  position: fixed;
+  margin: auto;
+  top: -10vh;
+  right: 0;
+  left: 0;
+  z-index: 10;
+  color: base.$white-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 1px;
+  transition: top 0.3s, opacity 0.7s, visibility 0.7s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+
+  span {
+    height: 50px;
+    text-align: center;
+    background-color: base.$danger-color;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+  }
+}
+
+.show-child-toast {
+  top: 20px;
+  opacity: 1;
+  visibility: visible;
+  transition: top 0.3s, opacity 0.1s, visibility 0.1s;
+}

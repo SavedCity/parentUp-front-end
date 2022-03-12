@@ -33,7 +33,7 @@
   }
 }
 
-.success-toast {
+.adding-child-toast {
   position: fixed;
   margin: auto;
   top: -10vh;
@@ -61,12 +61,13 @@
   }
 }
 
-.toast-show {
+.show-child-toast {
   top: 20px;
   opacity: 1;
   visibility: visible;
   transition: top 0.3s, opacity 0.1s, visibility 0.1s;
 }
+
 #addChildModal.child-modal-display {
   visibility: visible;
   background-color: #0007;
