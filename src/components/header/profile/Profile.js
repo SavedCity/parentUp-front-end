@@ -22,7 +22,7 @@ export default function Profile() {
         (child) => child.date_added.seconds.toString() === locationId
       );
     }
-    if (location.state && filter !== []) {
+    if (location.state && filter && filter.length !== 0) {
       childRemoved();
     }
   }, []); // eslint-disable-line
@@ -30,10 +30,10 @@ export default function Profile() {
   const childRemoved = () => {
     let toast = document.querySelector(".removing-child-toast");
     setTimeout(() => {
-      toast.classList.add("show-child-toast");
+      toast.classList.add("show-removing-child-toast");
     }, 250);
     setTimeout(() => {
-      toast.classList.remove("show-child-toast");
+      toast.classList.remove("show-removing-child-toast");
     }, 3500);
   };
 

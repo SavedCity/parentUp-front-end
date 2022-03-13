@@ -94,10 +94,10 @@ export default function AddChildModal() {
       userCollection();
       closeAddChildModal();
       setTimeout(() => {
-        toast.classList.add("show-child-toast");
+        toast.classList.add("show-adding-child-toast");
       }, 250);
       setTimeout(() => {
-        toast.classList.remove("show-child-toast");
+        toast.classList.remove("show-adding-child-toast");
       }, 3500);
     } catch (err) {
       console.log(err);
