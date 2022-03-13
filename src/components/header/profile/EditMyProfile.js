@@ -89,9 +89,13 @@ export default function EditMyProfile({ toggleEdit }) {
     });
     if (fieldValue !== userInfo.usernameLC && fieldValue === existingUsername) {
       setUsernameErr(true);
-      return;
-    } else if (newUsernameRef.current === userInfo.username) {
       submit.disabled = true;
+      return;
+    }
+    if (
+      newUsernameRef.current === userInfo.username &&
+      newFullName === userInfo.full_name
+    ) {
       return;
     }
     setUsernameErr(false);
@@ -147,11 +151,7 @@ export default function EditMyProfile({ toggleEdit }) {
               placeholder="Username"
               onChange={handleNewUsernameChange}
             />
-            {newUsername === userInfo.username
-              ? ""
-              : !usernameErr
-              ? "✅"
-              : "❌"}
+            {newUsername === userInfo.username ? "" : usernameErr ? "❌" : "✅"}
           </div>
         </section>
       </div>

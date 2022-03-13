@@ -47,11 +47,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 
   > div {
     display: flex;
     align-items: center;
     column-gap: 2em;
+
+    input {
+      color: base.$black-med-color !important;
+    }
   }
 
   label[for="user-photo-picker"] {
@@ -96,6 +101,23 @@
       object-fit: cover;
       object-position: 0 0;
     }
+  }
+
+  #edit-submit-btn {
+    padding: 10px 40px;
+    position: absolute;
+    bottom: -15em;
+    left: calc(100px + 2em);
+    background-color: base.$success-color;
+    border: none;
+    @include base.text-minimal(1rem, base.$white-color);
+    transition: background-color 0.2s;
+    cursor: pointer;
+  }
+
+  #edit-submit-btn:disabled {
+    background-color: base.$grey-xl-color;
+    cursor: default;
   }
 }
 
