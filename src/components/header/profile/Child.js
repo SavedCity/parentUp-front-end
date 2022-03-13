@@ -23,9 +23,9 @@ export default function Child() {
   const removeChild = async (child) => {
     const userDoc = doc(db, "users", currentUser.uid);
     try {
-      // await updateDoc(userDoc, {
-      //   children: arrayRemove(child),
-      // });
+      await updateDoc(userDoc, {
+        children: arrayRemove(child),
+      });
       navigate("/profile", {
         state: {
           name: filteredChild[0].name,
@@ -47,7 +47,7 @@ export default function Child() {
               <h1>
                 {name} ({gender})
               </h1>
-              <img src={photo_url} alt={name} style={{ width: "25%" }} />
+              <img src={photo_url} alt={name} style={{ width: "18%" }} />
               <h3>Born {dob}</h3>
               <p>Born in {pob}</p>
               <button onClick={() => removeChild(child)}>Remove</button>

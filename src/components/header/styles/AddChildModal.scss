@@ -50,6 +50,7 @@
   visibility: hidden;
 
   span {
+    @include base.text-minimal(1rem, base.$white-color);
     height: 50px;
     text-align: center;
     background-color: base.$success-color;

@@ -12,12 +12,20 @@ export default function Profile() {
 
   useEffect(() => {
     userCollection();
-    // if (location.state && location.state.id) {
-    //   childRemoved();
-    // }
+    let locationId;
+    let filter;
+    if (location.state) {
+      locationId = location.state.id;
+    }
+    if (userInfo.children) {
+      filter = userInfo.children.filter(
+        (child) => child.date_added.seconds.toString() === locationId
+      );
+    }
+    if (location.state && filter !== []) {
+      childRemoved();
+    }
   }, []); // eslint-disable-line
-
-  console.log(location);
 
   const childRemoved = () => {
     let toast = document.querySelector(".removing-child-toast");
