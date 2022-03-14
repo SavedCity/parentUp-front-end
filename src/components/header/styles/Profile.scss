@@ -231,6 +231,12 @@ label[for="edit-profile"]:hover .edit-profile-toggle.edit-active {
     border-radius: 2px;
     padding: 1px 0 1px 5px;
     box-sizing: border-box;
+    transition: padding 0.2s;
+    width: 200px;
+
+    &:hover {
+      @include base.input-padding;
+    }
   }
 
   input[id="profile-full-name"],

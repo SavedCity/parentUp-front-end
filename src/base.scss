@@ -21,3 +21,7 @@ $danger-color-hover: #db574e;
   letter-spacing: $spacing;
   color: $color;
 }
+
+@mixin input-padding {
+  padding-left: 8px;
+}

@@ -215,7 +215,7 @@
     input[id="pob"]:focus,
     input[id="dob"]:hover,
     input[id="dob"]:focus {
-      padding-left: 8px;
+      @include base.input-padding;
     }
 
     input[id="name"] {

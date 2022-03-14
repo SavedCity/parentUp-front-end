@@ -7,7 +7,7 @@ import PrivateRoute from "./components/routing/PrivateRoute";
 import PasswordReset from "./components/authentication/PasswordReset";
 import Profile from "./components/header/profile/Profile";
 import Child from "./components/header/profile/Child";
-import Header from "./components/header/profile/Header";
+import Header from "./components/header/Header";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 

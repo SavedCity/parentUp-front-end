@@ -35,11 +35,25 @@ export default function EditMyProfile({ toggleEdit }) {
     e.preventDefault();
     const userDoc = doc(db, "users", currentUser.uid);
     const storageRef = storage.ref();
+
+    const fieldValue = newUsernameRef.current.toLowerCase();
+    const data = query(
+      collection(db, "users"),
+      where("usernameLC", "==", fieldValue)
+    );
+    const snapshot = await getDocs(data);
+    let existingUsername;
+    snapshot.forEach((doc) => {
+      existingUsername = doc.data().usernameLC;
+    });
     try {
       let fileRef;
       if (childPhoto !== userInfo.photo_url) {
         fileRef = storageRef.child(childPhoto.name);
         await fileRef.put(childPhoto);
+      }
+      if (fieldValue === existingUsername) {
+        return;
       }
       await updateDoc(userDoc, {
         full_name: newFullName,
@@ -57,13 +71,6 @@ export default function EditMyProfile({ toggleEdit }) {
     } catch (err) {
       console.log(err);
     }
-    if (
-      newUsername === userInfo.username &&
-      newFullName === userInfo.full_name &&
-      previewChildPhoto === userInfo.photo_url
-    ) {
-      submitBtn.disabled = true;
-    }
     await userCollection();
     toggleEdit();
   };
@@ -73,8 +80,8 @@ export default function EditMyProfile({ toggleEdit }) {
   };
 
   const handleNewUsernameChange = async (e) => {
-    let submit = document.getElementById("edit-submit-btn");
-    submit.disabled = true;
+    let submitBtn = document.getElementById("edit-submit-btn");
+    submitBtn.disabled = true;
     setNewUsername(e.target.value);
     newUsernameRef.current = e.target.value;
     const fieldValue = newUsernameRef.current.toLowerCase();
@@ -89,7 +96,7 @@ export default function EditMyProfile({ toggleEdit }) {
     });
     if (fieldValue !== userInfo.usernameLC && fieldValue === existingUsername) {
       setUsernameErr(true);
-      submit.disabled = true;
+      submitBtn.disabled = true;
       return;
     }
     if (
@@ -99,7 +106,7 @@ export default function EditMyProfile({ toggleEdit }) {
       return;
     }
     setUsernameErr(false);
-    submit.disabled = false;
+    submitBtn.disabled = false;
   };
 
   const handlePhotoChange = (e) => {

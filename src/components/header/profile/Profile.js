@@ -107,7 +107,7 @@ export default function Profile() {
                 <EditMyProfile toggleEdit={toggleEdit} />
               )}
               <label onClick={toggleEdit} htmlFor="edit-profile">
-                <div id="edit-profile" className="edit-profile-toggle"></div>
+                <span id="edit-profile" className="edit-profile-toggle"></span>
                 Edit
                 <div className="edit-lock"></div>
               </label>
