@@ -7,7 +7,7 @@
   right: 0;
   left: 0;
   z-index: 10;
-  color: base.$white-color;
+  color: base.$rule-60-color;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,7 +17,7 @@
   visibility: hidden;
 
   span {
-    @include base.text-minimal(1rem, base.$white-color);
+    @include base.text-minimal(1rem, base.$rule-60-color);
     height: 50px;
     text-align: center;
     background-color: base.$danger-color;

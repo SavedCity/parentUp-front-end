@@ -108,9 +108,9 @@
     position: absolute;
     bottom: -15em;
     left: calc(100px + 2em);
-    background-color: base.$success-color;
+    background-color: base.$rule-10-color;
     border: none;
-    @include base.text-minimal(1rem, base.$white-color);
+    @include base.text-minimal(1rem, base.$rule-60-color);
     transition: background-color 0.2s;
     cursor: pointer;
   }
@@ -118,13 +118,14 @@
   #edit-submit-btn:disabled {
     background-color: base.$grey-xl-color;
     cursor: default;
+    color: #ddd;
   }
 }
 
 //////// BOTH INFO DISPLAY AND INFO EDIT ///////
 
 label[for="edit-profile"] {
-  @include base.text-minimal();
+  @include base.text-minimal(1rem, base.$grey-l-color);
   display: flex;
   align-items: center;
   transition: color 0.3s;
@@ -142,7 +143,7 @@ label[for="edit-profile"] {
 
     &::after {
       content: "";
-      background-color: base.$white-color;
+      background-color: base.$rule-60-color;
       width: 4px;
       height: 4px;
       position: absolute;
@@ -167,9 +168,9 @@ label[for="edit-profile"] {
   }
 
   .edit-lock-active {
-    background-color: base.$success-color;
+    background-color: base.$rule-30-l-color;
     &::before {
-      border: 2px solid base.$success-color;
+      border: 2px solid base.$rule-30-l-color;
       border-bottom: 0;
       transform: rotate(-35deg) translate(4px, -2px);
     }
@@ -180,7 +181,7 @@ label[for="edit-profile"]:hover .edit-profile-toggle {
   background-color: #b1b1b1;
 }
 label[for="edit-profile"]:hover .edit-profile-toggle.edit-active {
-  background-color: #4ea17b;
+  background-color: base.$rule-30-color-hover;
 }
 
 .edit-profile-toggle {
@@ -211,11 +212,7 @@ label[for="edit-profile"]:hover .edit-profile-toggle.edit-active {
 }
 
 .edit-active {
-  background-color: base.$success-color;
-
-  &:hover {
-    background-color: #4ea17b;
-  }
+  background-color: base.$rule-30-l-color;
 
   &::after {
     transform: translateX(31px);
@@ -233,17 +230,13 @@ label[for="edit-profile"]:hover .edit-profile-toggle.edit-active {
     box-sizing: border-box;
     transition: padding 0.2s;
     width: 200px;
-
-    &:hover {
-      @include base.input-padding;
-    }
   }
 
   input[id="profile-full-name"],
   input[id="edit-full-name"] {
     @include base.text-minimal(
       1.3rem,
-      base.$black-med-color,
+      base.$rule-30-color,
       0.5px,
       montserrat,
       400
@@ -253,12 +246,25 @@ label[for="edit-profile"]:hover .edit-profile-toggle.edit-active {
 
   input[id="edit-username"],
   input[id="profile-username"] {
-    @include base.text-minimal(1rem, base.$grey-l-color, 0.5px, work sans, 300);
+    @include base.text-minimal(
+      1rem,
+      base.$rule-30-color,
+      0.5px,
+      work sans,
+      300
+    );
     margin: 0;
+  }
+
+  input[id="edit-username"],
+  input[id="edit-full-name"] {
+    &:hover {
+      @include base.input-padding;
+    }
   }
 }
 
-//////// ADDITIONAL PERSONAL INFORMATION /////////
+//////// ADDITIONAL USER INFORMATION /////////
 
 .additional-user-info-container {
   box-sizing: border-box;

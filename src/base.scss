@@ -1,21 +1,25 @@
-$white-color: #ffffff;
 $black-color: #111111;
 $black-med-color: #282828;
 $grey-color: #515151;
 $grey-l-color: #717171;
 $grey-xl-color: #919191;
 $grey-xxl-color: #c1c1c1;
-$success-color: #52b788;
 $success-l-color: #6cc99d;
 $danger-color: #ee6055;
 $danger-color-hover: #db574e;
+$rule-60-color: #ffffff;
+$rule-30-color: #333b5c;
+$rule-30-l-color: #45507a;
+$rule-30-color-hover: #556399;
+$rule-10-color: #186d6d;
+$rule-10-color-hover: #1f8383;
 
 @mixin text-minimal(
   $size: 1rem,
-  $color: $grey-l-color,
+  $color: $rule-30-color,
   $spacing: 0.5px,
   $font-f: montserrat,
-  $font-w: 400
+  $font-w: 300
 ) {
   font: $font-w $size $font-f;
   letter-spacing: $spacing;

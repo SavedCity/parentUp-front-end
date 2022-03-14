@@ -1,7 +1,7 @@
 @use "../../../base";
 
 .header-container {
-  background-color: #dbdbdb;
+  background-color: base.$rule-30-color;
   padding: 1em 1em 1em 3em;
   display: flex;
   justify-content: space-between;
@@ -10,7 +10,7 @@
   .header-logo-box {
     h2 {
       margin: 0;
-      @include base.text-minimal(1.7rem, base.$black-color, 2px);
+      @include base.text-minimal(1.7rem, base.$rule-60-color, 2px);
     }
   }
 }
@@ -21,15 +21,15 @@
 
   a {
     text-decoration: none;
-    @include base.text-minimal(1.1rem, base.$black-color);
+    @include base.text-minimal(1.1rem, base.$rule-60-color);
     padding: 3px 0;
   }
 
   button {
-    @include base.text-minimal(1.1rem, base.$white-color);
+    @include base.text-minimal(1.1rem, base.$rule-60-color);
     border: none;
     background: base.$danger-color;
-    padding: 3px 10px;
+    padding: 0 10px 3px;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;

@@ -59,7 +59,7 @@ export default function Profile() {
       // container.style.backgroundColor = "#d0ffb777";
       toggleBtn.classList.add("edit-active");
       lock.classList.add("edit-lock-active");
-      editText.style.color = "#52b788";
+      editText.style.color = "#45507a";
     }
     setInfoEditable(!infoEditable);
   };

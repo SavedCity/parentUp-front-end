@@ -20,7 +20,7 @@
   top: 8px;
   border: 2px solid #fff4;
   border-radius: 50%;
-  border-top: 2px solid base.$white-color;
+  border-top: 2px solid base.$rule-60-color;
   animation: loader-spin 1s linear infinite;
 }
 
@@ -40,7 +40,7 @@
   right: 0;
   left: 0;
   z-index: 10;
-  color: base.$white-color;
+  color: base.$rule-60-color;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,13 +48,13 @@
   transition: top 0.3s, opacity 0.7s, visibility 0.7s ease-in-out;
   opacity: 0;
   visibility: hidden;
-  background-color: base.$success-color;
+  background-color: base.$rule-10-color;
 
   span {
-    @include base.text-minimal(1rem, base.$white-color);
+    @include base.text-minimal(1rem, base.$rule-60-color);
     height: 50px;
     text-align: center;
-    background-color: base.$success-color;
+    background-color: base.$rule-10-color;
     border-radius: 2px;
     display: flex;
     justify-content: center;
@@ -92,7 +92,7 @@
   transition: background-color 0.3s;
 
   > div {
-    background-color: base.$white-color;
+    background-color: base.$rule-60-color;
     width: 40vw;
     padding: 30px 10px;
     flex-direction: column;
@@ -199,12 +199,12 @@
       transition: padding 0.2s;
       outline: none;
       box-sizing: border-box;
-      @include base.text-minimal(1rem, base.$black-med-color);
+      @include base.text-minimal(1rem, base.$rule-30-color);
     }
 
     input:focus,
     input:hover {
-      border-color: base.$black-med-color;
+      border-color: base.$rule-30-color;
     }
 
     label[for="name"]:hover + input[id="name"],
@@ -243,7 +243,7 @@
       }
       label[for="boy"],
       label[for="girl"] {
-        @include base.text-minimal(1rem, base.$black-med-color);
+        @include base.text-minimal(1rem, base.$rule-30-color);
       }
       input[id="boy"],
       input[id="girl"] {
@@ -264,7 +264,7 @@
       padding: 10px;
       cursor: pointer;
       text-align: center;
-      @include base.text-minimal(1.1rem, base.$white-color);
+      @include base.text-minimal(1.1rem, base.$rule-60-color);
     }
 
     .buttons-container > div {
@@ -273,12 +273,12 @@
     }
 
     .buttons-container div button {
-      background-color: #52b788;
+      background-color: base.$rule-10-color;
       border: none;
       padding: 10px;
       cursor: pointer;
       width: 100%;
-      @include base.text-minimal(1.1rem, base.$white-color);
+      @include base.text-minimal(1.1rem, base.$rule-60-color);
     }
   }
 }
