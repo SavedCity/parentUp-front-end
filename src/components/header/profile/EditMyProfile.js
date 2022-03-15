@@ -31,12 +31,14 @@ export default function EditMyProfile({ toggleEdit }) {
   }, [childPhoto]); // eslint-disable-line
 
   const updateProfile = async (e) => {
-    let submitBtn = document.getElementById("edit-submit-btn");
+    let loader = document.getElementById("edit-save-loader");
     e.preventDefault();
+    loader.style.display = "block";
     const userDoc = doc(db, "users", currentUser.uid);
     const storageRef = storage.ref();
-
-    const fieldValue = newUsernameRef.current.toLowerCase();
+    const fieldValue = newUsernameRef.current.value
+      ? newUsernameRef.current.value.toLowerCase()
+      : newUsernameRef.current.toLowerCase();
     const data = query(
       collection(db, "users"),
       where("usernameLC", "==", fieldValue)
@@ -52,7 +54,12 @@ export default function EditMyProfile({ toggleEdit }) {
         fileRef = storageRef.child(childPhoto.name);
         await fileRef.put(childPhoto);
       }
-      if (fieldValue === existingUsername) {
+      if (
+        fieldValue === existingUsername &&
+        newFullName === userInfo.full_name &&
+        previewChildPhoto === userInfo.photo_url
+      ) {
+        console.log("Username exists");
         return;
       }
       await updateDoc(userDoc, {
@@ -72,6 +79,7 @@ export default function EditMyProfile({ toggleEdit }) {
       console.log(err);
     }
     await userCollection();
+    loader.style.display = "none";
     toggleEdit();
   };
 
@@ -80,7 +88,7 @@ export default function EditMyProfile({ toggleEdit }) {
   };
 
   const handleNewUsernameChange = async (e) => {
-    let submitBtn = document.getElementById("edit-submit-btn");
+    let submitBtn = document.getElementById("edit-save-btn");
     submitBtn.disabled = true;
     setNewUsername(e.target.value);
     newUsernameRef.current = e.target.value;
@@ -162,18 +170,21 @@ export default function EditMyProfile({ toggleEdit }) {
           </div>
         </section>
       </div>
-      <button
-        disabled={
-          newUsername === userInfo.username &&
-          newFullName === userInfo.full_name &&
-          previewChildPhoto === userInfo.photo_url
-        }
-        id="edit-submit-btn"
-        type="submit"
-        onClick={updateProfile}
-      >
-        Save
-      </button>
+      <div className="edit-save-box">
+        <button
+          disabled={
+            newUsername === userInfo.username &&
+            newFullName === userInfo.full_name &&
+            previewChildPhoto === userInfo.photo_url
+          }
+          id="edit-save-btn"
+          type="submit"
+          onClick={updateProfile}
+        >
+          Save
+        </button>
+        <div id="edit-save-loader"></div>
+      </div>
     </div>
   );
 }

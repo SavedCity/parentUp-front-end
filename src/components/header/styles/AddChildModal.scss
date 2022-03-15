@@ -103,7 +103,7 @@
     h2 {
       width: 50%;
       margin: 1em auto 1.2em;
-      @include base.text-minimal(1.5rem, #616161, 1px);
+      @include base.text-minimal(1.5rem, base.$rule-30-color, 1px);
       font-weight: 400;
       text-align: center;
       border-bottom: 1px solid base.$grey-xl-color;

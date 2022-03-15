@@ -54,12 +54,12 @@ export default function Profile() {
       // container.style.backgroundColor = "#edede944";
       toggleBtn.classList.remove("edit-active");
       lock.classList.remove("edit-lock-active");
-      editText.style.color = "#717171";
+      editText.style.color = "#919191";
     } else {
       // container.style.backgroundColor = "#d0ffb777";
       toggleBtn.classList.add("edit-active");
       lock.classList.add("edit-lock-active");
-      editText.style.color = "#45507a";
+      editText.style.color = "#717171";
     }
     setInfoEditable(!infoEditable);
   };
