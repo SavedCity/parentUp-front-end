@@ -27,6 +27,14 @@ $rule-10-color-hover: #1f8383;
   color: $color;
 }
 
+@mixin button($b-color: none, $padding: 3px 2em) {
+  border: none;
+  background-color: $b-color;
+  padding: $padding;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
 @mixin input-padding {
   padding-left: 8px;
 }

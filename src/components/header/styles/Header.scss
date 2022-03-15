@@ -33,12 +33,8 @@
 
   button {
     @include base.text-minimal(1.1rem, base.$rule-60-color);
-    border: none;
-    background: base.$danger-color;
-    padding: 0 10px 3px;
+    @include base.button(base.$danger-color, 0 1em 3px);
     font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
 
     &:hover {
       background-color: base.$danger-color-hover;

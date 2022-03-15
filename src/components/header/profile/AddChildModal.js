@@ -224,7 +224,7 @@ export default function AddChildModal() {
             type="text"
           />
 
-          <div className="buttons-container">
+          <div className="add-child-buttons-container">
             <span onClick={closeAddChildModal}>Cancel</span>
             <div>
               <button id="add-child-submit" onClick={addChild} type="submit">

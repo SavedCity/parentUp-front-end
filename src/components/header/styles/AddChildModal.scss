@@ -87,7 +87,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 5;
+  z-index: 15;
   overflow: auto;
   transition: background-color 0.3s;
 
@@ -251,34 +251,37 @@
       }
     }
 
-    .buttons-container {
+    .add-child-buttons-container {
       display: flex;
       align-items: center;
       column-gap: 10px;
       margin-top: 10px;
     }
 
-    .buttons-container span {
+    .add-child-buttons-container span {
       width: 30%;
-      background-color: base.$danger-color;
-      padding: 10px;
-      cursor: pointer;
       text-align: center;
-      @include base.text-minimal(1.1rem, base.$rule-60-color);
+      @include base.button(base.$rule-60-color, 0);
+      @include base.text-minimal(1.1rem, base.$black-med-color);
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
-    .buttons-container > div {
+    .add-child-buttons-container > div {
       width: 70%;
       position: relative;
     }
 
-    .buttons-container div button {
-      background-color: base.$rule-10-color;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      width: 100%;
+    .add-child-buttons-container div button {
+      @include base.button(base.$rule-10-color, 10px 0);
       @include base.text-minimal(1.1rem, base.$rule-60-color);
+      width: 100%;
+
+      &:hover {
+        background-color: base.$rule-10-color-hover;
+      }
     }
   }
 }

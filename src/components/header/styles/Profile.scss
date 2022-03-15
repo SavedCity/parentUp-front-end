@@ -303,4 +303,13 @@ label[for="edit-profile"]:hover .edit-profile-toggle.edit-active {
   box-sizing: border-box;
   width: 50%;
   padding: 3em 8em;
+
+  .open-child-modal-btn {
+    @include base.button(base.$rule-10-color, 5px 2em);
+    @include base.text-minimal(0.9rem, #fff);
+
+    &:hover {
+      background-color: base.$rule-10-color-hover;
+    }
+  }
 }

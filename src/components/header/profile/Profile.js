@@ -83,6 +83,7 @@ export default function Profile() {
         </span>
       </div>
 
+      {/*  /////// MAIN USER INFORMATION SECTION /////// */}
       {!dataLoading ? (
         <div className="profile-main">
           <div className="main-user-info-container">
@@ -114,8 +115,14 @@ export default function Profile() {
             </div>
           </div>
 
+          {/* /////// ADDITIONAL INFO FOR USER SECTION /////// */}
           <div className="additional-user-info-container">
-            <button onClick={openAddChildModal}>Add child</button>
+            <button
+              className="open-child-modal-btn"
+              onClick={openAddChildModal}
+            >
+              Add child
+            </button>
             <AddChildModal />
             {userInfo.children &&
               userInfo.children.map((child, key) => {
