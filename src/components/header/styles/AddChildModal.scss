@@ -70,16 +70,18 @@
   transition: top 0.3s, opacity 0.1s, visibility 0.1s;
 }
 
-#addChildModal.child-modal-display {
+#add-child-modal.child-modal-display {
   visibility: visible;
   background-color: #0007;
+  transition: background-color 0.3s;
 
   > div {
     transform: scale(1);
+    transition: transform 0.3s;
   }
 }
 
-#addChildModal {
+#add-child-modal {
   visibility: hidden;
   background-color: transparent;
   width: 100%;
@@ -89,7 +91,7 @@
   left: 0;
   z-index: 15;
   overflow: auto;
-  transition: background-color 0.3s;
+  transition: visibility 0.1s, background-color 0.3s;
 
   > div {
     background-color: base.$rule-60-color;
@@ -98,7 +100,7 @@
     flex-direction: column;
     margin: 50px auto 0;
     transform: scale(0.5);
-    transition: transform 0.3s;
+    transition: transform 0.2s;
 
     h2 {
       width: 50%;
@@ -255,7 +257,7 @@
       display: flex;
       align-items: center;
       column-gap: 10px;
-      margin-top: 10px;
+      margin-top: 2em;
     }
 
     .add-child-buttons-container span {

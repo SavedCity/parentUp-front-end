@@ -41,7 +41,7 @@ export default function Profile() {
     if (infoEditable) {
       toggleEdit();
     }
-    let modal = document.getElementById("addChildModal");
+    let modal = document.getElementById("add-child-modal");
     modal.classList.add("child-modal-display");
   };
 
@@ -124,16 +124,38 @@ export default function Profile() {
               Add child
             </button>
             <AddChildModal />
-            {userInfo.children &&
-              userInfo.children.map((child, key) => {
-                const { name, date_added } = child;
-                let id = date_added.seconds.toString();
-                return (
-                  <div key={key}>
-                    <Link to={id}>{name}</Link>
-                  </div>
-                );
-              })}
+
+            <h3 className="my-children-title">My Children</h3>
+            <div className="my-children-container">
+              {userInfo.children &&
+                userInfo.children.map((child, key) => {
+                  const { name, date_added, photo_url } = child;
+                  const id = date_added.seconds.toString();
+                  const imageWH =
+                    userInfo.children.length === 1
+                      ? "180px"
+                      : userInfo.children.length === 2
+                      ? "135px"
+                      : userInfo.children.length === 3
+                      ? "100px"
+                      : "75px";
+                  return (
+                    <div key={key}>
+                      <Link to={id}>
+                        <img
+                          style={{
+                            width: imageWH,
+                            height: imageWH,
+                          }}
+                          src={photo_url}
+                          alt={name}
+                        />
+                        {name}
+                      </Link>
+                    </div>
+                  );
+                })}
+            </div>
           </div>
         </div>
       ) : null}

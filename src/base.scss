@@ -4,6 +4,7 @@ $grey-color: #515151;
 $grey-l-color: #717171;
 $grey-xl-color: #919191;
 $grey-xxl-color: #c1c1c1;
+$light-transp-color: #0000001f;
 $success-l-color: #6cc99d;
 $danger-color: #b23a48;
 $danger-color-hover: #c54352;
@@ -13,6 +14,7 @@ $rule-30-l-color: #576497;
 $rule-30-xl-color: #a5aed1;
 $rule-30-color-hover: #556399;
 $rule-10-color: #186d6d;
+$rule-10-l-color: #57bebe;
 $rule-10-color-hover: #1f8383;
 
 @mixin text-minimal(
@@ -37,4 +39,12 @@ $rule-10-color-hover: #1f8383;
 
 @mixin input-padding {
   padding-left: 8px;
+}
+
+@mixin image-rounded($width: 100px, $height: 100px, $objp: 0 0) {
+  width: $width;
+  height: $height;
+  border-radius: 100%;
+  object-fit: cover;
+  object-position: $objp;
 }

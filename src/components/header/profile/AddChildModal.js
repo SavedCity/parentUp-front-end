@@ -42,7 +42,7 @@ export default function AddChildModal() {
   };
 
   const closeAddChildModal = () => {
-    let modal = document.getElementById("addChildModal");
+    let modal = document.getElementById("add-child-modal");
     modal.classList.remove("child-modal-display");
     resetAddChildFields();
   };
@@ -136,7 +136,7 @@ export default function AddChildModal() {
     }
   };
   return (
-    <div id="addChildModal">
+    <div id="add-child-modal">
       <div>
         <h2>Child's Details</h2>
         <form>
