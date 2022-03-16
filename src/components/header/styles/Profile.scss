@@ -323,15 +323,12 @@ label[for="edit-profile"]:hover .edit-profile-toggle.edit-active {
   }
 
   .my-children-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, max-content));
+    grid-gap: 2em;
     justify-content: center;
-    column-gap: 3em;
-    row-gap: 3em;
-    column-span: 2px;
-    margin: 0 auto;
 
-    div {
+    > div {
       a {
         text-decoration: none;
         @include base.text-minimal(1.1rem);
