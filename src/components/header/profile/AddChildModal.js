@@ -24,6 +24,15 @@ export default function AddChildModal() {
 
   useEffect(() => {
     previewImage();
+    const handleEsc = (event) => {
+      if (event.keyCode === 27) {
+        closeAddChildModal();
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
   }, [childPhoto]); // eslint-disable-line
 
   const resetAddChildFields = () => {

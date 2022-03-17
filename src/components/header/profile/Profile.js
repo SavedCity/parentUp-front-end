@@ -131,16 +131,23 @@ export default function Profile() {
                 userInfo.children.map((child, key) => {
                   const { name, date_added, photo_url } = child;
                   const id = date_added.seconds.toString();
-                  const childrenLenght = userInfo.children.length;
+                  const childrenLength = userInfo.children.length;
                   const imageWH =
-                    childrenLenght === 1
-                      ? "170px"
-                      : childrenLenght === 2
-                      ? "140px"
+                    childrenLength === 1
+                      ? "150px"
+                      : childrenLength === 2
+                      ? "120px"
                       : "100px";
+                  const linkFontSize =
+                    childrenLength === 1 ? "1.15rem" : "1rem";
                   return (
                     <div key={key}>
-                      <Link to={id}>
+                      <Link
+                        style={{
+                          fontSize: linkFontSize,
+                        }}
+                        to={id}
+                      >
                         <img
                           style={{
                             width: imageWH,

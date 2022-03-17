@@ -132,59 +132,68 @@ export default function EditMyProfile({ toggleEdit }) {
   };
   return (
     <div className="edit-user-personal-info">
-      <div>
-        <label htmlFor="user-photo-picker">
-          <span>
-            <AiFillEdit />
-          </span>
-          <img src={previewChildPhoto} alt="child" />
-          <input
-            id="user-photo-picker"
-            type="file"
-            onChange={handlePhotoChange}
-            ref={photoRef}
-            accept="image/*"
-            hidden
-          />
-        </label>
-
-        <section className="names-section">
-          <input
-            id="edit-full-name"
-            type="text"
-            ref={newFullNameRef}
-            value={newFullName}
-            placeholder="Full Name"
-            onChange={handleNewFullNameChange}
-          />
-          <div>
+      <form>
+        <div>
+          <label htmlFor="user-photo-picker">
+            <span>
+              <AiFillEdit />
+            </span>
+            <img src={previewChildPhoto} alt="child" />
             <input
-              id="edit-username"
-              type="text"
-              ref={newUsernameRef}
-              value={newUsername}
-              placeholder="Username"
-              onChange={handleNewUsernameChange}
+              id="user-photo-picker"
+              type="file"
+              onChange={handlePhotoChange}
+              ref={photoRef}
+              accept="image/*"
+              hidden
             />
-            {newUsername === userInfo.username ? "" : usernameErr ? "❌" : "✅"}
-          </div>
-        </section>
-      </div>
-      <div className="edit-save-box">
-        <button
-          disabled={
-            newUsername === userInfo.username &&
-            newFullName === userInfo.full_name &&
-            previewChildPhoto === userInfo.photo_url
-          }
-          id="edit-save-btn"
-          type="submit"
-          onClick={updateProfile}
-        >
-          Save
-        </button>
-        <div id="edit-save-loader"></div>
-      </div>
+          </label>
+
+          <section className="names-section">
+            <input
+              id="edit-full-name"
+              type="text"
+              ref={newFullNameRef}
+              value={newFullName}
+              placeholder="Full Name"
+              onChange={handleNewFullNameChange}
+            />
+            <div>
+              <input
+                id="edit-username"
+                type="text"
+                ref={newUsernameRef}
+                value={newUsername}
+                placeholder="Username"
+                onChange={handleNewUsernameChange}
+              />
+              {newUsername === userInfo.username
+                ? ""
+                : usernameErr
+                ? "❌"
+                : "✅"}
+            </div>
+          </section>
+        </div>
+        <div className="edit-save-box">
+          <button
+            disabled={
+              newUsername === userInfo.username &&
+              newFullName === userInfo.full_name &&
+              previewChildPhoto === userInfo.photo_url
+            }
+            id="edit-save-btn"
+            type="submit"
+            onClick={updateProfile}
+          >
+            Save
+            <div id="edit-save-loader"></div>
+          </button>
+          <button className="cancel-edit" onClick={toggleEdit}>
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
