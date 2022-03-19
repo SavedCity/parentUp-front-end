@@ -18,14 +18,14 @@ $rule-10-l-color: #57bebe;
 $rule-10-color-hover: #1f8383;
 
 @mixin text-minimal(
-  $size: 1rem,
+  $fontSize: 1rem,
   $color: $rule-30-color,
-  $spacing: 0.5px,
-  $font-f: montserrat,
-  $font-w: 300
+  $letterSpacing: 0.5px,
+  $fontFamily: montserrat,
+  $fontWeight: 300
 ) {
-  font: $font-w $size $font-f;
-  letter-spacing: $spacing;
+  font: $fontWeight $fontSize $fontFamily;
+  letter-spacing: $letterSpacing;
   color: $color;
 }
 
@@ -37,8 +37,8 @@ $rule-10-color-hover: #1f8383;
   transition: background-color 0.2s;
 }
 
-@mixin input-padding {
-  padding-left: 8px;
+@mixin input-padding($paddingLeft: 8px) {
+  padding-left: $paddingLeft;
 }
 
 @mixin image-rounded($width: 100px, $height: 100px, $objp: 0 0) {

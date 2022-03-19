@@ -13,31 +13,63 @@
   width: 100%;
   z-index: 10;
 
+  ///////// LOGO ////////
   .header-logo-box {
     h2 {
       margin: 0;
       @include base.text-minimal(1.7rem, base.$rule-60-color, 2px);
     }
   }
-}
+  ///////// SEARCH BAR ////////
+  .search-bar {
+    position: relative;
+    input {
+      height: 2em;
+      width: 22em;
+      @include base.text-minimal(
+        $fontSize: 0.9rem,
+        $letterSpacing: 0.8px,
+        $fontWeight: 400
+      );
+      padding: 1.1em 1.1em 1.1em 0.8em;
+      border-radius: 3px;
+      border: 1px solid;
+      transition: padding 0.2s;
+      outline: none;
+      box-sizing: border-box;
 
-.header-links-box {
-  display: flex;
-  column-gap: 20px;
-
-  a {
-    text-decoration: none;
-    @include base.text-minimal(1.1rem, base.$rule-60-color);
-    padding: 3px 0;
+      &:hover {
+        @include base.input-padding(1em);
+      }
+    }
+    div {
+      position: absolute;
+      top: 7px;
+      right: 6px;
+      font-size: 20px;
+      color: base.$grey-xl-color;
+    }
   }
 
-  button {
-    @include base.text-minimal(1.1rem, base.$rule-60-color);
-    @include base.button(base.$danger-color, 0 1em 3px);
-    font-weight: 500;
+  ///////// RIGHT SIDE LINKS ////////
+  .header-links-box {
+    display: flex;
+    column-gap: 20px;
 
-    &:hover {
-      background-color: base.$danger-color-hover;
+    a {
+      text-decoration: none;
+      @include base.text-minimal(1.1rem, base.$rule-60-color);
+      padding: 3px 0;
+    }
+
+    button {
+      @include base.text-minimal(1.1rem, base.$rule-60-color);
+      @include base.button(base.$danger-color, 0 1em 3px);
+      font-weight: 500;
+
+      &:hover {
+        background-color: base.$danger-color-hover;
+      }
     }
   }
 }
