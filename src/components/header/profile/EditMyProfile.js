@@ -135,10 +135,16 @@ export default function EditMyProfile({ toggleEdit }) {
       <form>
         <div>
           <label htmlFor="user-photo-picker">
-            <span>
+            <span className="user-edit-icon">
               <AiFillEdit />
             </span>
-            <img src={previewChildPhoto} alt="child" />
+            {previewChildPhoto ? (
+              <img src={previewChildPhoto} alt="child" />
+            ) : (
+              <span className="default-user-img-placeholder">
+                {userInfo.full_name.charAt(0)}
+              </span>
+            )}
             <input
               id="user-photo-picker"
               type="file"

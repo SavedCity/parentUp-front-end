@@ -60,15 +60,19 @@ export default function Header() {
         <div>
           <VscSearch />
         </div>
-        <div className="search-results">
-          {users.map((user, key) => {
-            return (
-              <div key={key}>
-                <p>{user.username}</p>
-              </div>
-            );
-          })}
-        </div>
+        {users.length !== 0 && (
+          <div className="search-results">
+            {users.map((user, key) => {
+              const { username, date_created, uid } = user;
+              const id = date_created.seconds.toString();
+              return (
+                <Link to={`/user/${uid}`} key={key}>
+                  <p>{username}</p>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
       <div className="header-links-box">
         <Link to="/">Home</Link>

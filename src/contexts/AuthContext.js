@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
       usernameLC: usernameLC,
       full_name: fullName,
       date_created: new Date(),
+      uid: newUser.user.uid,
     });
   };
 

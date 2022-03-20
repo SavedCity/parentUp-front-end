@@ -10,6 +10,7 @@ import Child from "./components/header/profile/Child";
 import Header from "./components/header/Header";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import User from "./components/header/User";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<MainContent />} />
+              <Route path="/user/:userId" element={<User />} />
               <Route path="profile" element={<Profile />} />
               <Route path="/profile/:childId" element={<Child />} />
             </Route>

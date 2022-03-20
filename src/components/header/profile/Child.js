@@ -16,7 +16,7 @@ export default function Child() {
   let filteredChild;
   if (userInfo.children) {
     filteredChild = userInfo.children.filter(
-      (child) => child.date_added.seconds.toString() === childId
+      (child) => child.date_created.seconds.toString() === childId
     );
   }
 
@@ -29,7 +29,7 @@ export default function Child() {
       navigate("/profile", {
         state: {
           name: filteredChild[0].name,
-          id: filteredChild[0].date_added.seconds.toString(),
+          id: filteredChild[0].date_created.seconds.toString(),
         },
       });
     } catch (error) {

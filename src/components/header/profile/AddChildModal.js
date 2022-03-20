@@ -89,7 +89,7 @@ export default function AddChildModal() {
       const currentDate = new Date();
       await fileRef.put(childPhoto);
       const inputs = {
-        date_added: currentDate,
+        date_created: currentDate,
         name: name,
         dob: dobRef.current.value,
         gender: gender,

@@ -25,7 +25,7 @@
     align-items: center;
     column-gap: 2em;
 
-    img {
+    > img {
       @include base.image-rounded();
     }
 
@@ -64,7 +64,7 @@
     cursor: pointer;
     border-radius: 100%;
 
-    > span {
+    .user-edit-icon {
       font-size: 1.2em;
       color: #eee;
       transition: 0.3s;
@@ -161,6 +161,16 @@
 }
 
 //////// BOTH INFO DISPLAY AND INFO EDIT ///////
+
+.default-user-img-placeholder {
+  @include base.image-rounded();
+  @include base.text-minimal(2rem);
+  border: 1px solid #0002;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
 
 label[for="edit-profile"] {
   @include base.text-minimal(1rem, base.$grey-xl-color);

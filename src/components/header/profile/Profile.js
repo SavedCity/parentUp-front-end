@@ -19,7 +19,7 @@ export default function Profile() {
     }
     if (userInfo.children) {
       filter = userInfo.children.filter(
-        (child) => child.date_added.seconds.toString() === locationId
+        (child) => child.date_created.seconds.toString() === locationId
       );
     }
     if (location.state && filter && filter.length !== 0) {
@@ -90,16 +90,22 @@ export default function Profile() {
             <div>
               {!infoEditable ? (
                 <div className="user-personal-info">
-                  <img src={userInfo.photo_url} alt={userInfo.photo_name} />
+                  {userInfo.photo_url ? (
+                    <img src={userInfo.photo_url} alt={userInfo.photo_name} />
+                  ) : (
+                    <span className="default-user-img-placeholder">
+                      {userInfo.full_name && userInfo.full_name.charAt(0)}
+                    </span>
+                  )}
                   <section className="names-section">
                     <input
                       id="profile-full-name"
-                      value={userInfo.full_name}
+                      value={userInfo.full_name || ""}
                       readOnly
                     />
                     <input
                       id="profile-username"
-                      value={userInfo.username}
+                      value={userInfo.username || ""}
                       readOnly
                     />
                   </section>
@@ -129,8 +135,8 @@ export default function Profile() {
             <div className="my-children-container">
               {userInfo.children &&
                 userInfo.children.map((child, key) => {
-                  const { name, date_added, photo_url } = child;
-                  const id = date_added.seconds.toString();
+                  const { name, date_created, photo_url } = child;
+                  const id = date_created.seconds.toString();
                   const childrenLength = userInfo.children.length;
                   const imageWH =
                     childrenLength === 1
