@@ -42,12 +42,25 @@
         @include base.input-padding(1em);
       }
     }
-    div {
+    > div {
       position: absolute;
       top: 7px;
-      right: 6px;
+      right: 10px;
       font-size: 20px;
       color: base.$grey-xl-color;
+    }
+    .search-results {
+      position: absolute;
+      left: 1px;
+      top: 30px;
+      background-color: base.$rule-30-l-color;
+      width: 15.75em;
+      div {
+        p {
+          margin: 0;
+          @include base.text-minimal();
+        }
+      }
     }
   }
 

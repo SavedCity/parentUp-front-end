@@ -8,6 +8,8 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default function Header() {
   const [searchUsersVal, setSearchUsersVal] = useState("");
+  const [users, setUsers] = useState([]);
+
   const searchUserValRef = useRef("");
 
   const { signOut, currentUser } = useAuth();
@@ -23,6 +25,7 @@ export default function Header() {
   };
 
   const handleSearchUsersChange = async (e) => {
+    setUsers([]);
     setSearchUsersVal(e.target.value);
     searchUserValRef.current = e.target.value;
     let searchField = searchUserValRef.current.value
@@ -35,10 +38,11 @@ export default function Header() {
     const snapshot = await getDocs(data);
     let existingUsername;
     snapshot.forEach((doc) => {
-      existingUsername = doc.data().usernameLC;
-      console.log(existingUsername);
+      existingUsername = doc.data();
+      setUsers([existingUsername]);
     });
   };
+  console.log(users);
 
   return (
     <div className="header-container">
@@ -55,6 +59,15 @@ export default function Header() {
         />
         <div>
           <VscSearch />
+        </div>
+        <div className="search-results">
+          {users.map((user, key) => {
+            return (
+              <div key={key}>
+                <p>{user.username}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="header-links-box">
