@@ -63,8 +63,7 @@ export default function Header() {
         {users.length !== 0 && (
           <div className="search-results">
             {users.map((user, key) => {
-              const { username, date_created, uid } = user;
-              const id = date_created.seconds.toString();
+              const { username, uid } = user;
               return (
                 <Link to={`/user/${uid}`} key={key}>
                   <p>{username}</p>

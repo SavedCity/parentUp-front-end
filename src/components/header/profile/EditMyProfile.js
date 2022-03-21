@@ -33,7 +33,7 @@ export default function EditMyProfile({ toggleEdit }) {
     let loader = document.getElementById("edit-save-loader");
     e.preventDefault();
     loader.style.display = "block";
-    const userDoc = doc(db, "users", currentUser.uid);
+    const myUserDoc = doc(db, "users", currentUser.uid);
     const storageRef = storage.ref();
     const fieldValue = newUsernameRef.current.value
       ? newUsernameRef.current.value.toLowerCase()
@@ -61,7 +61,7 @@ export default function EditMyProfile({ toggleEdit }) {
         console.log("Must make a change.");
         return;
       }
-      await updateDoc(userDoc, {
+      await updateDoc(myUserDoc, {
         full_name: newFullName,
         username: newUsername,
         usernameLC: newUsername.toLowerCase(),

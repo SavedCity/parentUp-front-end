@@ -73,11 +73,11 @@
 #add-child-modal.child-modal-display {
   visibility: visible;
   background-color: #0007;
-  transition: background-color 0.3s;
+  transition: background-color 0.1s;
 
   > div {
     transform: scale(1);
-    transition: transform 0.3s;
+    transition: transform 0.2s;
   }
 }
 
@@ -100,7 +100,7 @@
     flex-direction: column;
     margin: 50px auto 0;
     transform: scale(0.5);
-    transition: transform 0.2s;
+    transition: transform 0.4s;
 
     h2 {
       width: 50%;
