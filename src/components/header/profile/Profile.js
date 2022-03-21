@@ -45,8 +45,9 @@ export default function Profile() {
     modal.classList.add("child-modal-display");
   };
 
-  const toggleEdit = () => {
+  const toggleEdit = (event) => {
     // let container = document.querySelector(".main-user-info-container");
+    event.preventDefault();
     let toggleBtn = document.querySelector(".edit-profile-toggle");
     let lock = document.querySelector(".edit-lock");
     let editText = document.querySelector("label[for=edit-profile]");

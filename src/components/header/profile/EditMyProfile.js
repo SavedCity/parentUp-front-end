@@ -23,7 +23,6 @@ export default function EditMyProfile({ toggleEdit }) {
   const [previewChildPhoto, setPreviewChildPhoto] = useState(
     userInfo.photo_url
   );
-
   const photoRef = useRef("");
 
   useEffect(() => {
@@ -55,11 +54,11 @@ export default function EditMyProfile({ toggleEdit }) {
         await fileRef.put(childPhoto);
       }
       if (
-        fieldValue === existingUsername &&
+        newUsernameRef.current === existingUsername &&
         newFullName === userInfo.full_name &&
         previewChildPhoto === userInfo.photo_url
       ) {
-        console.log("Username exists");
+        console.log("Must make a change.");
         return;
       }
       await updateDoc(userDoc, {
@@ -67,11 +66,15 @@ export default function EditMyProfile({ toggleEdit }) {
         username: newUsername,
         usernameLC: newUsername.toLowerCase(),
         photo_name:
-          childPhoto !== userInfo.photo_url
+          childPhoto === undefined
+            ? ""
+            : childPhoto !== userInfo.photo_url
             ? childPhoto.name
             : userInfo.photo_name,
         photo_url:
-          childPhoto !== userInfo.photo_url
+          childPhoto === undefined
+            ? ""
+            : childPhoto !== userInfo.photo_url
             ? await fileRef.getDownloadURL()
             : userInfo.photo_url,
       });
@@ -80,7 +83,7 @@ export default function EditMyProfile({ toggleEdit }) {
     }
     await userCollection();
     loader.style.display = "none";
-    toggleEdit();
+    toggleEdit(e);
   };
 
   const handleNewFullNameChange = (e) => {
@@ -102,6 +105,7 @@ export default function EditMyProfile({ toggleEdit }) {
     snapshot.forEach((doc) => {
       existingUsername = doc.data().usernameLC;
     });
+    console.log(newUsernameRef);
     if (fieldValue !== userInfo.usernameLC && fieldValue === existingUsername) {
       setUsernameErr(true);
       submitBtn.disabled = true;
