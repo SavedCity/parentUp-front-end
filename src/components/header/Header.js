@@ -4,15 +4,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { VscSearch } from "react-icons/vsc";
 import { db } from "../../firebase/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 export default function Header() {
   const [searchUsersVal, setSearchUsersVal] = useState("");
   const [users, setUsers] = useState([]);
+  const [foundUser, setFoundUser] = useState("");
 
   const searchUserValRef = useRef("");
 
-  const { signOut, currentUser } = useAuth();
+  const { signOut, currentUser, userInfo } = useAuth();
   const navigate = useNavigate();
 
   const userSignOut = async () => {
@@ -32,17 +40,29 @@ export default function Header() {
       ? searchUserValRef.current.value.toLowerCase()
       : searchUserValRef.current.toLowerCase();
     const data = query(
-      collection(db, "users"),
-      where("usernameLC", "==", searchField)
+      collection(db, "users")
+      // where("usernameLC", "==", searchField)
     );
+
+    // const userDoc = doc(db, "users", userInfo.uid);
+    // const data = await getDoc(userDoc).then((doc) => doc.data());
+    // console.log(data);
+
     const snapshot = await getDocs(data);
-    let existingUsername;
+    let existingUsername = [];
     snapshot.forEach((doc) => {
-      existingUsername = doc.data();
-      setUsers([existingUsername]);
+      existingUsername.push(doc.data());
+      setFoundUser(existingUsername);
     });
+    setUsers(existingUsername);
   };
-  console.log(users);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (foundUser) {
+      navigate(`/user/${foundUser.uid}`);
+    }
+  };
 
   return (
     <div className="header-container">
@@ -50,13 +70,15 @@ export default function Header() {
         <h2>parentUP</h2>
       </div>
       <div className="search-bar">
-        <input
-          onChange={handleSearchUsersChange}
-          placeholder="Search users (username)"
-          type="text"
-          ref={searchUserValRef}
-          value={searchUsersVal}
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            onChange={handleSearchUsersChange}
+            placeholder="Search users (username)"
+            type="search"
+            ref={searchUserValRef}
+            value={searchUsersVal}
+          />
+        </form>
         <div>
           <VscSearch />
         </div>
