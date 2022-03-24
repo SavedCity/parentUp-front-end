@@ -87,7 +87,15 @@ export default function Header() {
             {users.map((user, key) => {
               const { username, uid } = user;
               return (
-                <Link to={`/user/${uid}`} key={key}>
+                <Link
+                  className={
+                    key % 2 === 0
+                      ? "search-result-link-even"
+                      : "search-result-link-odd"
+                  }
+                  to={`/user/${uid}`}
+                  key={key}
+                >
                   <p>{username}</p>
                 </Link>
               );
