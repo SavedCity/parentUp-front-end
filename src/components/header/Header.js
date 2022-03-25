@@ -40,18 +40,16 @@ export default function Header() {
       ? searchUserValRef.current.value.toLowerCase()
       : searchUserValRef.current.toLowerCase();
     const data = query(collection(db, "users"));
-
-    // const userDoc = doc(db, "users", userInfo.uid);
-    // const data = await getDoc(userDoc).then((doc) => doc.data());
-    // console.log(data);
-
     const snapshot = await getDocs(data);
     let existingUsername = [];
     snapshot.forEach((doc) => {
-      if (doc.data().usernameLC.trim().includes(searchField) && searchField) {
+      if (
+        doc.data().usernameLC.trim().includes(searchField.trim()) &&
+        searchField
+      ) {
         existingUsername.push(doc.data());
       }
-      setFoundUser(existingUsername);
+      setFoundUser(...existingUsername);
     });
     setUsers(existingUsername);
   };
