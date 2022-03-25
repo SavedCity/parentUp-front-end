@@ -55,25 +55,40 @@
       left: 1px;
       right: 1px;
       top: 32px;
-      background-color: #edede9;
+      background-color: #ffffff;
       border: 1px solid;
-      padding: 10px 0;
+      //   padding: 10px 0;
       display: flex;
       flex-direction: column;
-
-      .search-result-link-odd {
-        background-color: yellow;
-      }
-      .search-result-link-even {
-        background-color: violet;
-      }
 
       a {
         text-decoration: none;
         padding: 10px 5px;
         p {
+          transition: color 0.2s;
           margin: 0;
-          @include base.text-minimal(0.9rem, #000);
+          @include base.text-minimal(0.85rem, #000);
+        }
+      }
+
+      .search-result-link-odd {
+        background-color: #eeeeee50;
+        transition: background-color 0.2s;
+        &:hover {
+          background-color: base.$rule-30-xl-color;
+          > p {
+            color: #ffffff;
+          }
+        }
+      }
+      .search-result-link-even {
+        background-color: #0001;
+        transition: background-color 0.2s;
+        &:hover {
+          background-color: base.$rule-30-xl-color;
+          > p {
+            color: #ffffff;
+          }
         }
       }
     }

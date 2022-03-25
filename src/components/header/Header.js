@@ -39,10 +39,7 @@ export default function Header() {
     let searchField = searchUserValRef.current.value
       ? searchUserValRef.current.value.toLowerCase()
       : searchUserValRef.current.toLowerCase();
-    const data = query(
-      collection(db, "users")
-      // where("usernameLC", "==", searchField)
-    );
+    const data = query(collection(db, "users"));
 
     // const userDoc = doc(db, "users", userInfo.uid);
     // const data = await getDoc(userDoc).then((doc) => doc.data());
@@ -51,7 +48,9 @@ export default function Header() {
     const snapshot = await getDocs(data);
     let existingUsername = [];
     snapshot.forEach((doc) => {
-      existingUsername.push(doc.data());
+      if (doc.data().usernameLC.trim().includes(searchField) && searchField) {
+        existingUsername.push(doc.data());
+      }
       setFoundUser(existingUsername);
     });
     setUsers(existingUsername);
