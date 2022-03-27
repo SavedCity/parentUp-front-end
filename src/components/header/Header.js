@@ -1,27 +1,47 @@
 import { useRef, useState } from "react";
 import "./styles/Header.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { VscSearch } from "react-icons/vsc";
 import { db } from "../../firebase/firebase";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
+import { useEffect } from "react";
 
 export default function Header() {
+  const navigate = useNavigate();
   const [searchUsersVal, setSearchUsersVal] = useState("");
   const [users, setUsers] = useState([]);
-  const [foundUser, setFoundUser] = useState("");
-
+  const [noUserFound, setNoUserFound] = useState(false);
+  const [loadingSearch, setLoadingSearch] = useState(false);
+  const [firstFoundUser, setFirstFoundUser] = useState("");
   const searchUserValRef = useRef("");
+  const { signOut, currentUser } = useAuth();
+  const [isSearchResultVisible, setIsSearchResultVisible] = useState(true);
+  const searchResultRef = useRef();
+  const location = useLocation();
 
-  const { signOut, currentUser, userInfo } = useAuth();
-  const navigate = useNavigate();
+  const handleClickOutside = (e) => {
+    if (
+      searchResultRef.current &&
+      !searchResultRef.current.contains(e.target)
+    ) {
+      setIsSearchResultVisible(false);
+    }
+  };
+
+  const setSearchToDefault = () => {
+    setIsSearchResultVisible(false);
+    setUsers([]);
+    setSearchUsersVal("");
+  };
+
+  useEffect(() => {
+    setSearchToDefault();
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [location]);
 
   const userSignOut = async () => {
     try {
@@ -33,6 +53,8 @@ export default function Header() {
   };
 
   const handleSearchUsersChange = async (e) => {
+    setIsSearchResultVisible(true);
+    setLoadingSearch(true);
     setUsers([]);
     setSearchUsersVal(e.target.value);
     searchUserValRef.current = e.target.value;
@@ -45,19 +67,25 @@ export default function Header() {
     snapshot.forEach((doc) => {
       if (
         doc.data().usernameLC.trim().includes(searchField.trim()) &&
-        searchField
+        searchField.trim()
       ) {
         existingUsername.push(doc.data());
       }
-      setFoundUser(...existingUsername);
+      setNoUserFound(false);
     });
+    if (searchField.trim() && existingUsername.length < 1) {
+      setNoUserFound(true);
+    }
+    setFirstFoundUser(...existingUsername);
     setUsers(existingUsername);
+    setLoadingSearch(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (foundUser) {
-      navigate(`/user/${foundUser.uid}`);
+    if (firstFoundUser) {
+      navigate(`/user/${firstFoundUser.uid}`);
+      setSearchToDefault();
     }
   };
 
@@ -66,7 +94,7 @@ export default function Header() {
       <div className="header-logo-box">
         <h2>parentUP</h2>
       </div>
-      <div className="search-bar">
+      <div ref={searchResultRef} className="search-bar">
         <form onSubmit={handleSubmit}>
           <input
             onChange={handleSearchUsersChange}
@@ -74,12 +102,17 @@ export default function Header() {
             type="search"
             ref={searchUserValRef}
             value={searchUsersVal}
+            onFocus={searchUsersVal ? handleSearchUsersChange : null}
           />
         </form>
         <div>
-          <VscSearch />
+          {loadingSearch ? (
+            <div id="search-result-loader"></div>
+          ) : (
+            <VscSearch />
+          )}
         </div>
-        {users.length !== 0 && (
+        {isSearchResultVisible && users.length !== 0 ? (
           <div className="search-results">
             {users.map((user, key) => {
               const { username, uid } = user;
@@ -92,13 +125,18 @@ export default function Header() {
                   }
                   to={`/user/${uid}`}
                   key={key}
+                  onClick={setSearchToDefault}
                 >
                   <p>{username}</p>
                 </Link>
               );
             })}
           </div>
-        )}
+        ) : isSearchResultVisible && noUserFound ? (
+          <div className="search-results">
+            <p className="no-user-found">No user found</p>
+          </div>
+        ) : null}
       </div>
       <div className="header-links-box">
         <Link to="/">Home</Link>

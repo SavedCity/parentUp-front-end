@@ -105,7 +105,6 @@ export default function EditMyProfile({ toggleEdit }) {
     snapshot.forEach((doc) => {
       existingUsername = doc.data().usernameLC;
     });
-    console.log(newUsernameRef);
     if (fieldValue !== userInfo.usernameLC && fieldValue === existingUsername) {
       setUsernameErr(true);
       submitBtn.disabled = true;
@@ -199,7 +198,7 @@ export default function EditMyProfile({ toggleEdit }) {
             Save
             <div id="edit-save-loader"></div>
           </button>
-          <button className="cancel-edit" onClick={toggleEdit}>
+          <button type="button" className="cancel-edit" onClick={toggleEdit}>
             Cancel
           </button>
         </div>

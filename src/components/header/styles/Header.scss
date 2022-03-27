@@ -70,8 +70,15 @@
         }
       }
 
+      .no-user-found {
+        padding: 10px 5px;
+        transition: color 0.2s;
+        margin: 0;
+        @include base.text-minimal(0.85rem, #000);
+      }
+
       .search-result-link-odd {
-        background-color: #eeeeee50;
+        background-color: #efefef99;
         transition: background-color 0.2s;
         &:hover {
           background-color: base.$rule-30-l-color;
@@ -81,7 +88,7 @@
         }
       }
       .search-result-link-even {
-        background-color: #0001;
+        // background-color: #eeeeee50;
         transition: background-color 0.2s;
         &:hover {
           background-color: base.$rule-30-l-color;
@@ -90,6 +97,31 @@
           }
         }
       }
+    }
+  }
+
+  #search-result-loader {
+    position: absolute;
+    right: 19px;
+  }
+
+  #search-result-loader::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    border: 2px solid rgba(90, 90, 90, 0.568);
+    border-radius: 50%;
+    border-top: 2px solid base.$rule-60-color;
+    animation: loader-spin 1s linear infinite;
+  }
+
+  @keyframes loader-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 
