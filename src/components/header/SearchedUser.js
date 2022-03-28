@@ -50,7 +50,9 @@ export default function SearchedUser() {
 
           {/* /////// ADDITIONAL INFO FOR USER SECTION /////// */}
           <div className="additional-user-info-container">
-            <h3 className="my-children-title">My Children</h3>
+            <h3 className="my-children-title">
+              {userData.full_name && userData.full_name + "'s Children"}
+            </h3>
             <div className="my-children-container">
               {userData.children &&
                 userData.children.map((child, key) => {

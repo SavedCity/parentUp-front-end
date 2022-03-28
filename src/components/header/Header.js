@@ -13,7 +13,7 @@ export default function Header() {
   const [users, setUsers] = useState([]);
   const [noUserFound, setNoUserFound] = useState(false);
   const [loadingSearch, setLoadingSearch] = useState(false);
-  const [firstFoundUser, setFirstFoundUser] = useState("");
+  const [firstFoundUser, setFirstFoundUser] = useState({});
   const searchUserValRef = useRef("");
   const { signOut, currentUser } = useAuth();
   const [isSearchResultVisible, setIsSearchResultVisible] = useState(true);
@@ -86,6 +86,17 @@ export default function Header() {
     if (firstFoundUser) {
       navigate(`/user/${firstFoundUser.uid}`);
       setSearchToDefault();
+      saveSearchedUserHistoryLocally(firstFoundUser);
+    }
+  };
+
+  const saveSearchedUserHistoryLocally = (user) => {
+    let myStorage =
+      JSON.parse(localStorage.getItem("searchedUserHistory")) || [];
+    let filteredStorage = myStorage.filter((id) => id.uid === user.uid);
+    if (!filteredStorage.length) {
+      myStorage.push(user);
+      localStorage.setItem("searchedUserHistory", JSON.stringify(myStorage));
     }
   };
 
@@ -125,7 +136,7 @@ export default function Header() {
                   }
                   to={`/user/${uid}`}
                   key={key}
-                  onClick={setSearchToDefault}
+                  onClick={() => saveSearchedUserHistoryLocally(user)}
                 >
                   <p>{username}</p>
                 </Link>
