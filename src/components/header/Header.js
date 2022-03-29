@@ -178,9 +178,9 @@ export default function Header() {
               </>
             ) : localUsers && !noUserFound && !searchUsersVal ? (
               <>
-                {/* <span className="recently-viewed-searched-users">
+                <span className="recently-viewed-searched-users">
                   Recently Viewed
-                </span> */}
+                </span>
                 {localUsers.map((user, key) => {
                   const { username, uid } = user;
                   return (
