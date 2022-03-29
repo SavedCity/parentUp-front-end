@@ -76,11 +76,16 @@ export default function Header() {
       setNoUserFound(false);
     });
     if (searchField.trim() && existingUsername.length < 1) {
+      setIsSearchResultVisible(true);
       setNoUserFound(true);
     }
     setFirstFoundUser(...existingUsername);
     setUsers(existingUsername);
     setLoadingSearch(false);
+    console.log(localUsers);
+    if (localUsers.length) {
+      setIsSearchResultVisible(true);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -156,7 +161,7 @@ export default function Header() {
 
         {isSearchResultVisible && (
           <div className="search-results">
-            {users.length ? (
+            {users && users.length && !noUserFound ? (
               <>
                 {users.map((user, key) => {
                   const { username, uid } = user;
@@ -176,7 +181,10 @@ export default function Header() {
                   );
                 })}
               </>
-            ) : localUsers.length && !noUserFound && !searchUsersVal ? (
+            ) : localUsers &&
+              localUsers.length &&
+              !noUserFound &&
+              !searchUsersVal ? (
               <>
                 <span className="recently-viewed-searched-users">
                   Recently Viewed
