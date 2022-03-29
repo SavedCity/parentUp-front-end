@@ -71,6 +71,7 @@ export default function Header() {
         searchField.trim()
       ) {
         existingUsername.push(doc.data());
+        setIsSearchResultVisible(true);
       }
       setNoUserFound(false);
     });
@@ -80,7 +81,6 @@ export default function Header() {
     setFirstFoundUser(...existingUsername);
     setUsers(existingUsername);
     setLoadingSearch(false);
-    setIsSearchResultVisible(true);
   };
 
   const handleSubmit = async (e) => {
@@ -176,7 +176,7 @@ export default function Header() {
                   );
                 })}
               </>
-            ) : localUsers && !noUserFound && !searchUsersVal ? (
+            ) : localUsers.length && !noUserFound && !searchUsersVal ? (
               <>
                 <span className="recently-viewed-searched-users">
                   Recently Viewed
