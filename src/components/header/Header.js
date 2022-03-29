@@ -19,6 +19,7 @@ export default function Header() {
   const [isSearchResultVisible, setIsSearchResultVisible] = useState(true);
   const searchResultRef = useRef();
   const location = useLocation();
+  const [localUsers, setLocalUsers] = useState([]);
 
   const handleClickOutside = (e) => {
     if (
@@ -53,7 +54,7 @@ export default function Header() {
   };
 
   const handleSearchUsersChange = async (e) => {
-    setIsSearchResultVisible(true);
+    setIsSearchResultVisible(false);
     setLoadingSearch(true);
     setUsers([]);
     setSearchUsersVal(e.target.value);
@@ -79,6 +80,7 @@ export default function Header() {
     setFirstFoundUser(...existingUsername);
     setUsers(existingUsername);
     setLoadingSearch(false);
+    setIsSearchResultVisible(true);
   };
 
   const handleSubmit = async (e) => {
@@ -100,6 +102,11 @@ export default function Header() {
     }
   };
 
+  const fetchLocalUsers = () => {
+    setIsSearchResultVisible(true);
+    setLocalUsers(JSON.parse(localStorage.getItem("searchedUserHistory")));
+  };
+
   return (
     <div className="header-container">
       <div className="header-logo-box">
@@ -113,7 +120,7 @@ export default function Header() {
             type="search"
             ref={searchUserValRef}
             value={searchUsersVal}
-            onFocus={searchUsersVal ? handleSearchUsersChange : null}
+            onFocus={searchUsersVal ? handleSearchUsersChange : fetchLocalUsers}
           />
         </form>
         <div>
@@ -123,31 +130,62 @@ export default function Header() {
             <VscSearch />
           )}
         </div>
-        {isSearchResultVisible && users.length !== 0 ? (
+
+        {isSearchResultVisible && (
           <div className="search-results">
-            {users.map((user, key) => {
-              const { username, uid } = user;
-              return (
-                <Link
-                  className={
-                    key % 2 === 0
-                      ? "search-result-link-even"
-                      : "search-result-link-odd"
-                  }
-                  to={`/user/${uid}`}
-                  key={key}
-                  onClick={() => saveSearchedUserHistoryLocally(user)}
-                >
-                  <p>{username}</p>
-                </Link>
-              );
-            })}
+            {users.length ? (
+              <>
+                {users.map((user, key) => {
+                  const { username, uid } = user;
+                  return (
+                    <Link
+                      className={
+                        key % 2 === 0
+                          ? "search-result-link-even"
+                          : "search-result-link-odd"
+                      }
+                      to={`/user/${uid}`}
+                      key={key}
+                      onClick={() => saveSearchedUserHistoryLocally(user)}
+                    >
+                      <p>{username}</p>
+                    </Link>
+                  );
+                })}
+              </>
+            ) : localUsers.length && !noUserFound && !searchUsersVal ? (
+              <>
+                {/* <span className="recently-viewed-searched-users">
+                  Recently Viewed
+                </span> */}
+                {localUsers.map((user, key) => {
+                  const { username, uid } = user;
+                  return (
+                    <div className="recently-viewed-info-container">
+                      <Link
+                        // className={
+                        //   key % 2 === 0
+                        //     ? "search-result-link-even"
+                        //     : "search-result-link-odd"
+                        // }
+                        to={`/user/${uid}`}
+                        key={key}
+                        onClick={() => saveSearchedUserHistoryLocally(user)}
+                      >
+                        <p>{username}</p>
+                      </Link>
+                      <span>x</span>
+                    </div>
+                  );
+                })}
+              </>
+            ) : noUserFound ? (
+              <>
+                <p className="no-user-found">No user found</p>
+              </>
+            ) : null}
           </div>
-        ) : isSearchResultVisible && noUserFound ? (
-          <div className="search-results">
-            <p className="no-user-found">No user found</p>
-          </div>
-        ) : null}
+        )}
       </div>
       <div className="header-links-box">
         <Link to="/">Home</Link>

@@ -50,19 +50,71 @@
       font-size: 20px;
       color: base.$grey-xl-color;
     }
+
     .search-results {
       position: absolute;
       left: 0;
       right: 0;
-      top: 32px;
+      top: 31px;
       background-color: #ffffff;
       border: 1px solid base.$grey-xxl-color;
       display: flex;
       flex-direction: column;
 
+      .recently-viewed-searched-users {
+        @include base.text-minimal(
+          $fontSize: 0.85rem,
+          $fontWeight: 400,
+          $color: #333
+        );
+        padding: 10px 5px;
+        background-color: #efefef6e;
+      }
+
+      .recently-viewed-info-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        position: relative;
+
+        a {
+          text-decoration: none;
+          padding: 8px 5px;
+          width: 100%;
+          transition: background-color 0.2s;
+          &:hover {
+            background-color: #efefef99;
+          }
+          p {
+            transition: color 0.2s;
+            margin: 0;
+            @include base.text-minimal(0.85rem, #000);
+          }
+        }
+
+        > span {
+          border-radius: 100%;
+          transition: background-color 0.2s, color 0.2s;
+          padding: 2px 7px 3px 8px;
+          text-align: center;
+          @include base.text-minimal($fontSize: 1rem, $color: rgb(87, 87, 87));
+          position: absolute;
+          right: 5px;
+          top: 5px;
+          &:hover {
+            background-color: #e0e0e0;
+          }
+        }
+      }
+
+      //   > div {
       a {
         text-decoration: none;
-        padding: 10px 5px;
+        padding: 8px 5px;
+        &:hover {
+          background-color: #efefef99;
+        }
         p {
           transition: color 0.2s;
           margin: 0;
@@ -77,26 +129,27 @@
         @include base.text-minimal(0.85rem, #000);
       }
 
-      .search-result-link-odd {
-        background-color: #efefef99;
-        transition: background-color 0.2s;
-        &:hover {
-          background-color: base.$rule-30-l-color;
-          > p {
-            color: #ffffff;
-          }
-        }
-      }
-      .search-result-link-even {
-        // background-color: #eeeeee50;
-        transition: background-color 0.2s;
-        &:hover {
-          background-color: base.$rule-30-l-color;
-          > p {
-            color: #ffffff;
-          }
-        }
-      }
+      //   .search-result-link-odd {
+      //     transition: background-color 0.2s;
+      //     &:hover {
+      //       background-color: base.$rule-30-l-color;
+      //       p {
+      //         color: #ffffff;
+      //       }
+      //     }
+      //   }
+      //   .search-result-link-even {
+      //     // background-color: #eeeeee50;
+      //     // background-color: #efefef99;
+      //     transition: background-color 0.2s;
+      //     &:hover {
+      //       background-color: base.$rule-30-l-color;
+      //       p {
+      //         color: #ffffff;
+      //       }
+      //     }
+      //   }
+      //   }
     }
   }
 
