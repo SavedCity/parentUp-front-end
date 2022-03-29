@@ -63,7 +63,7 @@
 
       .recently-viewed-searched-users {
         @include base.text-minimal(
-          $fontSize: 0.85rem,
+          $fontSize: 0.77rem,
           $fontWeight: 400,
           $color: #333
         );
@@ -98,12 +98,12 @@
           transition: background-color 0.2s, color 0.2s;
           padding: 2px 7px 3px 8px;
           text-align: center;
-          @include base.text-minimal($fontSize: 1rem, $color: rgb(87, 87, 87));
+          @include base.text-minimal($fontSize: 1rem, $color: #484848);
           position: absolute;
           right: 5px;
-          top: 5px;
+          top: 4px;
           &:hover {
-            background-color: #e0e0e0;
+            background-color: #eeeeee;
           }
         }
       }

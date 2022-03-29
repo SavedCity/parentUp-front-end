@@ -16,7 +16,7 @@ export default function Header() {
   const [firstFoundUser, setFirstFoundUser] = useState({});
   const searchUserValRef = useRef("");
   const { signOut, currentUser } = useAuth();
-  const [isSearchResultVisible, setIsSearchResultVisible] = useState(true);
+  const [isSearchResultVisible, setIsSearchResultVisible] = useState(false);
   const searchResultRef = useRef();
   const location = useLocation();
   const [localUsers, setLocalUsers] = useState([]);
@@ -37,8 +37,8 @@ export default function Header() {
   };
 
   useEffect(() => {
-    setSearchToDefault();
     document.addEventListener("click", handleClickOutside, true);
+    setSearchToDefault();
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
@@ -103,8 +103,31 @@ export default function Header() {
   };
 
   const fetchLocalUsers = () => {
-    setIsSearchResultVisible(true);
-    setLocalUsers(JSON.parse(localStorage.getItem("searchedUserHistory")));
+    let currentLocalUsers = JSON.parse(
+      localStorage.getItem("searchedUserHistory")
+    );
+    setLocalUsers(currentLocalUsers);
+    if (currentLocalUsers && currentLocalUsers.length) {
+      setIsSearchResultVisible(true);
+    }
+  };
+
+  const removeLocalUser = (user) => {
+    let currentLocalUsers = JSON.parse(
+      localStorage.getItem("searchedUserHistory")
+    );
+    const userToRemove = currentLocalUsers.findIndex((userToFind) => {
+      return userToFind.uid === user.uid;
+    });
+    currentLocalUsers.splice(userToRemove, 1);
+    localStorage.setItem(
+      "searchedUserHistory",
+      JSON.stringify(currentLocalUsers)
+    );
+    setLocalUsers(currentLocalUsers);
+    if (!currentLocalUsers.length) {
+      setIsSearchResultVisible(false);
+    }
   };
 
   return (
@@ -153,7 +176,7 @@ export default function Header() {
                   );
                 })}
               </>
-            ) : localUsers.length && !noUserFound && !searchUsersVal ? (
+            ) : localUsers && !noUserFound && !searchUsersVal ? (
               <>
                 {/* <span className="recently-viewed-searched-users">
                   Recently Viewed
@@ -161,7 +184,7 @@ export default function Header() {
                 {localUsers.map((user, key) => {
                   const { username, uid } = user;
                   return (
-                    <div className="recently-viewed-info-container">
+                    <div key={key} className="recently-viewed-info-container">
                       <Link
                         // className={
                         //   key % 2 === 0
@@ -169,12 +192,17 @@ export default function Header() {
                         //     : "search-result-link-odd"
                         // }
                         to={`/user/${uid}`}
-                        key={key}
                         onClick={() => saveSearchedUserHistoryLocally(user)}
                       >
                         <p>{username}</p>
                       </Link>
-                      <span>x</span>
+                      <span
+                        onClick={() => {
+                          removeLocalUser(user);
+                        }}
+                      >
+                        x
+                      </span>
                     </div>
                   );
                 })}
